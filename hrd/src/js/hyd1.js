@@ -109,7 +109,7 @@ btn.onclick = () => {
     } else {
         // 拿到返回结果
         $('.stepsWord').html('');
-        let optimal = postData('http://120.92.111.108:8003', btnData);
+        let optimal = postData('120.92.111.108:8003', btnData);
         $('.stepsWord').append(`<button type="button" class="btn btn-default">第${1}步：${optimal[0].person_type}：${optimal[0].direction}</button>`);
         wujiangArray[optimal[0].person_type].move(wujiangArray, optimal, optimal[0].direction, 0);
     }
