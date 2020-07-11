@@ -260,6 +260,317 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/11/git/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%8F%8A%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="终身学习">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="谦修">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/07/11/git/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%8F%8A%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/" itemprop="url">Git原理和常用命令以及我遇到的问题（知识点复习）</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-11T18:26:00+08:00">
+                2020-07-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Git%E5%8E%9F%E7%90%86/" itemprop="url" rel="index">
+                    <span itemprop="name">Git原理</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h3><ul>
+<li>设计理想是根据五维平衡宇宙的概念，可以穿梭在任意的时间点，对其修改和重置，而在git中最重要的两个概念就是版本管理（相当于可以任意进出历史和未来，并可以对其控制）和多人协作（平衡时空，可以把任意一段历史copy成很多份，每一份都可以进行修改，而且在多人修改之后，还可以多层次的平衡时空给合并了~）</li>
+</ul>
+<ul>
+<li>可以把它想象成文件时光机，有了它就可以将某个文件夹回溯到之前的状态，甚至将整个项目都回退到过去某个时间点的状态；还可以比较文件的变化细节，查出是谁的改修在哪里引入了问题代码，即使不小心删错了一些文件也能够通过它很方面的找回</li>
+</ul>
+<h3 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h3><ul>
+<li>最重要的两个概念<strong>版本管理</strong>和<strong>多人协作</strong></li>
+</ul>
+<h3 id="版本控制系统"><a href="#版本控制系统" class="headerlink" title="版本控制系统"></a>版本控制系统</h3><p><strong>版本控制系统(version control system 简称VCS)，是一个记录一个或若干个文件内容变化，以便将来查阅特定版本修改情况的系统。</strong></p>
+<h4 id="版本控制系统的演进"><a href="#版本控制系统的演进" class="headerlink" title="版本控制系统的演进"></a>版本控制系统的演进</h4><blockquote>
+<p>分布式 ：真正的从控制系统克隆。版本库丢了，本地代码还是真实存在的</p>
+</blockquote>
+<blockquote>
+<p>集中式：只是一个快照。如果版本库丢了，本地的快照也都没用了</p>
+</blockquote>
+<p><img src=".%5Cimages%5C1593499472(1).jpg" alt="1593499472(1)"></p>
+<h3 id="Git基础原理"><a href="#Git基础原理" class="headerlink" title="Git基础原理"></a>Git基础原理</h3><h4 id="增量变化"><a href="#增量变化" class="headerlink" title="增量变化"></a>增量变化</h4><blockquote>
+<p>增量更新：版本之间，只记录变化，</p>
+</blockquote>
+<p><img src=".%5Cimages%5C1593499920(1).png" alt="1593499920(1)"></p>
+<h4 id="全量变化"><a href="#全量变化" class="headerlink" title="全量变化"></a>全量变化</h4><blockquote>
+<p>全量更新：无论是否变化，任何一个版本都有全部的快照</p>
+</blockquote>
+<p><img src=".%5Cimages%5C1593500065(1).jpg" alt="1593500065(1)"></p>
+<h4 id="Git工作区及文件状态"><a href="#Git工作区及文件状态" class="headerlink" title="Git工作区及文件状态"></a>Git工作区及文件状态</h4><ul>
+<li>工作目录[Working Diectory]：像vsCode和idea</li>
+<li>暂存区[Staging Area(index)]：缓存区，一个一个的版本全是由缓存区的内容构成的，若干个版本形成了一个仓库，由指令把本地文件放入缓存区，再由指令把缓存区的版本形成一个一个的版本。</li>
+<li>Git仓库[Repository]：若干版本构成的一个仓库</li>
+<li>未提交过的文件：从untracked开始</li>
+<li>提交过的文件：从modified开始</li>
+</ul>
+<p><img src=".%5Cimages%5C1593501005(1).jpg" alt="1593501005(1)"></p>
+<h4 id="工作目录、暂存区、仓库之间的关系"><a href="#工作目录、暂存区、仓库之间的关系" class="headerlink" title="工作目录、暂存区、仓库之间的关系"></a>工作目录、暂存区、仓库之间的关系</h4><ul>
+<li>头指针：指向最近一个版本的快照</li>
+</ul>
+<p><img src=".%5Cimages%5C1593501127(1).png" alt="1593501127(1)"></p>
+<h3 id="日常开发中Git的使用"><a href="#日常开发中Git的使用" class="headerlink" title="日常开发中Git的使用"></a>日常开发中Git的使用</h3><ul>
+<li><p>git init : 初始化一个空的git仓库，存在的各个版本的信息</p>
+</li>
+<li><p>U：未追踪的[未被记录的]</p>
+</li>
+<li><p>M: 已经保存过，但是又修改了</p>
+</li>
+<li><p>git add [文件 ]: 把要想存入缓存区的内容放到缓存区[git add index.html]</p>
+</li>
+<li><p>git commit</p>
+<ul>
+<li>不输入其他的：会打开linux下vm编辑器</li>
+<li>摁i进入编辑</li>
+<li>摁esc+:wq退出， wq：write quite，退出保存；q!:强制退出不保存</li>
+</ul>
+</li>
+<li><p>git commit -m ‘版本说明”: 为本次提交的一个版本并且加上版本注释</p>
+<ul>
+<li>-m: message, </li>
+</ul>
+</li>
+<li><p>git status: 查看最近操作状态</p>
+</li>
+<li><p>git rm -r –cached ‘files’: 在仓库中移除对应的文件</p>
+</li>
+<li><p>git checkout – file: 撤销上一下的保存【在未上传到缓存区和git仓库时，可以使用，如果以上传再checkout 是无效的】</p>
+</li>
+<li><p>git log：查看日志</p>
+</li>
+<li><p>git log –pretty=oneline: 一行展示日志</p>
+</li>
+<li><p>git 命令 -h: 查看命令的所有功能</p>
+</li>
+<li><p>git reset –hard  HEAD：版本回退</p>
+<ul>
+<li>git reset –hard HEAD^: 回退到上一版本【只能回退不能前进，^^: 回退到上上次, 几个^号就回退几次】</li>
+<li>git reset –hard HEAD~2：回退到上上次版本【数字决定向前回退几次】</li>
+<li>git reset –hard id: 回到指定id版本【获取id:利用git reflog查看版本id】</li>
+<li>HEAD指针指向的是最近一次更新的版本</li>
+<li>可以利用主键进行版本回退</li>
+<li>主键算法：40位的16进制的数字组合而成，利加密算法[sha1-1:安全散列算法]进行排列</li>
+</ul>
+<p><img src="C:%5CUsers%5Casus%5CDesktop%5Cgit%5Cimages%5C1593505856(1).jpg" alt="1593505856(1)"></p>
+</li>
+<li><p>git reflog: 查看历史版本</p>
+</li>
+<li><p>git revert  HEAD: 回退到某一个版本【把版本拿过来克隆一下，形成一个新的版本，不会影响源版本】</p>
+</li>
+<li><p>git revert –abort：取消版本回退</p>
+</li>
+<li><p>git diff: 比较工作区与暂存区</p>
+</li>
+<li><p>: 比较工作区与本地版本库最近一次commit的内容</p>
+</li>
+<li><p>git diff –cached : 比较暂存区与本地库中最近一次commit的内容</p>
+</li>
+<li><p>git diff <commit-id> <commit-id>: 比较两个commit之间的差异</p>
+</li>
+</ul>
+<hr>
+<h3 id="分支上的操作"><a href="#分支上的操作" class="headerlink" title="分支上的操作"></a>分支上的操作</h3><p>一般master作为主分支，部署的是bug最少的一个分支</p>
+<ul>
+<li>git branch <branch>: 创建新的分支</li>
+<li>git checkout <branch>：切换分支</li>
+<li>git branch: 查看所有分支</li>
+<li>git checkout -b ‘分支名称’:  创建并切换到新的分支</li>
+<li>git merge <branch>: 无冲突合并</li>
+<li>git branch -d <branch>: 删除分支</li>
+</ul>
+<h3 id="文件暂存"><a href="#文件暂存" class="headerlink" title="文件暂存"></a>文件暂存</h3><ul>
+<li>git stash save -a ‘message’: 添加改动到stash</li>
+<li>git stash list: 查看stash列表</li>
+<li>git stash pop &lt;stash@{id} &gt; ：恢复改动</li>
+<li>git stash drop &lt;stash@{id} &gt; ：删除暂存</li>
+<li>git stash clear: 删除全部暂存</li>
+</ul>
+<h3 id="远程操作"><a href="#远程操作" class="headerlink" title="远程操作"></a>远程操作</h3><ul>
+<li>git remote add origin ‘远程仓库ssh地址’ : 关联远程仓库</li>
+<li>ssh-keygen：设置远程密钥加密<ul>
+<li>会产生一个公钥密钥和当前的服务器进行连接</li>
+<li>在C:\Users\asus.ssh有个.pub文件在记事本中打开，复制一下</li>
+<li>在githun中setting中SSH and GPG keys中 new ssh key<ul>
+<li>title: 随便</li>
+<li>key: 密钥粘贴进去</li>
+<li>这样就完成了认证</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>git remote add origin ‘远程仓库ssh地址’：给远程仓库起一个名字叫origin</li>
+<li>git push ‘远程仓库地址’ ‘分支’:：把本地内容推送到远程分支上</li>
+<li>git pull origin ‘别的分支’: 把别的分支的内容拉到目前切换的分支上</li>
+<li>部署settings -&gt; options -&gt; github page -&gt; 选择分支 -&gt; 会读取对应分支的index.html</li>
+</ul>
+<h3 id="【问题-】配置github"><a href="#【问题-】配置github" class="headerlink" title="【问题 】配置github"></a>【问题 】配置github</h3><ul>
+<li>搜素DNS解析 -&gt; <a href="http://www.tool.chinaz.com(站长工具)" target="_blank" rel="noopener">www.tool.chinaz.com(站长工具)</a></li>
+<li>搜索最快的TTL值</li>
+<li>改下本地的hosts文件<ul>
+<li>C盘 -&gt; Windows -&gt; System32 -&gt; drivers -&gt; etc -&gt; hosts文件</li>
+<li>C:\Windows\System32\drivers\etc</li>
+</ul>
+</li>
+</ul>
+<h3 id="【问题】更新本地代码到远程仓库且合并"><a href="#【问题】更新本地代码到远程仓库且合并" class="headerlink" title="【问题】更新本地代码到远程仓库且合并"></a>【问题】更新本地代码到远程仓库且合并</h3><ol>
+<li>git pull origin master</li>
+<li>git add .</li>
+<li>git commit -m ‘xxx’</li>
+<li>git push origin master</li>
+</ol>
+<h3 id="【问题】切换不到远程仓库新的分支"><a href="#【问题】切换不到远程仓库新的分支" class="headerlink" title="【问题】切换不到远程仓库新的分支"></a>【问题】切换不到远程仓库新的分支</h3><ul>
+<li>首先查看远程分支是否存在你需要的分支<ul>
+<li>git brach -r</li>
+</ul>
+</li>
+<li>然后更新下远程分支<ul>
+<li>git remote update origin -p</li>
+</ul>
+</li>
+<li>最后切换分支<ul>
+<li>git checkout 分支名称</li>
+</ul>
+</li>
+</ul>
+<h3 id="【问题】-rejected-master-gt-master-non-fast-forward-error-failed-to-push-some-refs-to-‘http…’"><a href="#【问题】-rejected-master-gt-master-non-fast-forward-error-failed-to-push-some-refs-to-‘http…’" class="headerlink" title="【问题】[rejected]  master -&gt; master (non-fast-forward) error: failed to push some refs to ‘http…’"></a>【问题】[rejected]  master -&gt; master (non-fast-forward) error: failed to push some refs to ‘http…’</h3><ul>
+<li>问题原因：本地仓库无法覆盖远程仓库</li>
+<li>解决办法：消除差异之后再次覆盖<ul>
+<li>git pull origin master // 把远程仓库和本地仓库同步</li>
+<li>git add .</li>
+<li>git commit -m ‘xxx’</li>
+<li>git push origin master</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/11/designPattern/3.%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -879,7 +1190,7 @@
               
                 <a href="/archives%7C%7Carchive">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -890,7 +1201,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -901,7 +1212,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
