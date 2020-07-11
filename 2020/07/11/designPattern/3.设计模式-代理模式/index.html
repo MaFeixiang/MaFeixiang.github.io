@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="设计模式-代理模式 定义：为一个对象提供一种代理以控制对这个对象的访问 代理对象起到类似中介的作用，会增加一些功能（如：校验，合并等等），也会去一些愿有对象的功能 虚拟代理：虚拟代理是把一些开销很大的对象，延迟到真正需要它的时候才去创建执行 图片加载，文件上传（合并网络请求）   安全代理：控制真实对象的访问权限 登录操作后才能看全功能，前端校验   远程代理：一个对象将不同空间的对象进行局部代理">
+<meta name="description" content="心得 在代理模式中，一个对象充当了另一个对象的接口。它与外观模式的区别之处在于，在外观模式中所拥有的是合并了多个方法调用的遍历方法。代理则介于对象的客户端和对象本身之间，并且对该对象的访问进行保护。 这种模式看起来可能像是额外的开销，但是出于性能因素的考虑它却非常有用。代理充当了某个对象的守护对象，并且试图使本体对象做尽可能少的工作。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="designPattern&#x2F;3.设计模式-代理模式">
 <meta property="og:url" content="http://yoursite.com/2020/07/11/designPattern/3.%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="谦修">
-<meta property="og:description" content="设计模式-代理模式 定义：为一个对象提供一种代理以控制对这个对象的访问 代理对象起到类似中介的作用，会增加一些功能（如：校验，合并等等），也会去一些愿有对象的功能 虚拟代理：虚拟代理是把一些开销很大的对象，延迟到真正需要它的时候才去创建执行 图片加载，文件上传（合并网络请求）   安全代理：控制真实对象的访问权限 登录操作后才能看全功能，前端校验   远程代理：一个对象将不同空间的对象进行局部代理">
+<meta property="og:description" content="心得 在代理模式中，一个对象充当了另一个对象的接口。它与外观模式的区别之处在于，在外观模式中所拥有的是合并了多个方法调用的遍历方法。代理则介于对象的客户端和对象本身之间，并且对该对象的访问进行保护。 这种模式看起来可能像是额外的开销，但是出于性能因素的考虑它却非常有用。代理充当了某个对象的守护对象，并且试图使本体对象做尽可能少的工作。">
 <meta property="article:published_time" content="2020-07-11T03:32:08.000Z">
-<meta property="article:modified_time" content="2020-07-11T03:38:29.209Z">
+<meta property="article:modified_time" content="2020-07-11T03:48:45.644Z">
 <meta property="article:author" content="终身学习">
 <meta property="article:tag" content="设计模式">
 <meta name="twitter:card" content="summary">
@@ -351,7 +351,13 @@
       
 
       
-        <h3 id="设计模式-代理模式"><a href="#设计模式-代理模式" class="headerlink" title="设计模式-代理模式"></a>设计模式-代理模式</h3><ul>
+        <h3 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h3><ul>
+<li>在代理模式中，一个对象充当了另一个对象的接口。它与外观模式的区别之处在于，在外观模式中所拥有的是合并了多个方法调用的遍历方法。代理则介于对象的客户端和对象本身之间，并且对该对象的访问进行保护。</li>
+<li>这种模式看起来可能像是额外的开销，但是出于性能因素的考虑它却非常有用。代理充当了某个对象的守护对象，并且试图使本体对象做尽可能少的工作。</li>
+</ul>
+<a id="more"></a>
+
+<h3 id="设计模式-代理模式"><a href="#设计模式-代理模式" class="headerlink" title="设计模式-代理模式"></a>设计模式-代理模式</h3><ul>
 <li>定义：为一个对象提供一种代理以控制对这个对象的访问</li>
 <li>代理对象起到类似中介的作用，会增加一些功能（如：校验，合并等等），也会去一些愿有对象的功能</li>
 <li>虚拟代理：虚拟代理是把一些开销很大的对象，延迟到真正需要它的时候才去创建执行<ul>
@@ -374,7 +380,7 @@
 <h4 id="设计模式-代理模式-表单验证（保护代理）"><a href="#设计模式-代理模式-表单验证（保护代理）" class="headerlink" title="设计模式-代理模式-表单验证（保护代理）"></a>设计模式-代理模式-表单验证（保护代理）</h4><ul>
 <li>保护代理就是起到保护作用，用来过滤掉一下不必要的请求，将真正需要的递给本体。</li>
 <li>譬如，验证用户名是否唯一</li>
-<li>这里我们应用的是保护代理的思想，如果用户名是不合法的，则不会将该请求给本体执行</li>
+<li>这里应用的是保护代理的思想，如果用户名是不合法的，则不会将该请求给本体执行</li>
 <li>发送ajax请求</li>
 </ul>
 <h4 id="设计模式-代理模式-反模式"><a href="#设计模式-代理模式-反模式" class="headerlink" title="设计模式-代理模式-反模式"></a>设计模式-代理模式-反模式</h4><ul>
@@ -596,7 +602,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#设计模式-代理模式"><span class="nav-number">1.</span> <span class="nav-text">设计模式-代理模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#设计模式-代理模式-表单验证（保护代理）"><span class="nav-number">1.1.</span> <span class="nav-text">设计模式-代理模式-表单验证（保护代理）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设计模式-代理模式-反模式"><span class="nav-number">1.2.</span> <span class="nav-text">设计模式-代理模式-反模式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设计模式-策略模式"><span class="nav-number">2.</span> <span class="nav-text">设计模式-策略模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#设计模式-策略模式-特点说明"><span class="nav-number">2.1.</span> <span class="nav-text">设计模式-策略模式-特点说明</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#【例子】利用代理模式（虚拟代理）实现预加载和懒加载"><span class="nav-number">3.</span> <span class="nav-text">【例子】利用代理模式（虚拟代理）实现预加载和懒加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#【例子】利用代理（虚拟代理）模式实现文件上传（减缓服务器压力）"><span class="nav-number">4.</span> <span class="nav-text">【例子】利用代理（虚拟代理）模式实现文件上传（减缓服务器压力）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例子：利用代理模式（保护代理）和策略模式优雅的处理表单验证"><span class="nav-number">5.</span> <span class="nav-text">例子：利用代理模式（保护代理）和策略模式优雅的处理表单验证</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#心得"><span class="nav-number">1.</span> <span class="nav-text">心得</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设计模式-代理模式"><span class="nav-number">2.</span> <span class="nav-text">设计模式-代理模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#设计模式-代理模式-表单验证（保护代理）"><span class="nav-number">2.1.</span> <span class="nav-text">设计模式-代理模式-表单验证（保护代理）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设计模式-代理模式-反模式"><span class="nav-number">2.2.</span> <span class="nav-text">设计模式-代理模式-反模式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设计模式-策略模式"><span class="nav-number">3.</span> <span class="nav-text">设计模式-策略模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#设计模式-策略模式-特点说明"><span class="nav-number">3.1.</span> <span class="nav-text">设计模式-策略模式-特点说明</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#【例子】利用代理模式（虚拟代理）实现预加载和懒加载"><span class="nav-number">4.</span> <span class="nav-text">【例子】利用代理模式（虚拟代理）实现预加载和懒加载</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#【例子】利用代理（虚拟代理）模式实现文件上传（减缓服务器压力）"><span class="nav-number">5.</span> <span class="nav-text">【例子】利用代理（虚拟代理）模式实现文件上传（减缓服务器压力）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#例子：利用代理模式（保护代理）和策略模式优雅的处理表单验证"><span class="nav-number">6.</span> <span class="nav-text">例子：利用代理模式（保护代理）和策略模式优雅的处理表单验证</span></a></li></ol></div>
             
 
           </div>
