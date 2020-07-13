@@ -82,26 +82,27 @@
 <meta name="description" content="心得 设计理想是根据五维平衡宇宙的概念，可以穿梭在任意的时间点，对其修改和重置，而在git中最重要的两个概念就是版本管理（相当于可以任意进出历史和未来，并可以对其控制）和多人协作（平衡时空，可以把任意一段历史copy成很多份，每一份都可以进行修改，而且在多人修改之后，还可以多层次的平衡时空给合并了~）   可以把它想象成文件时光机，有了它就可以将某个文件夹回溯到之前的状态，甚至将整个项目都回退到过">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Git原理和常用命令以及我遇到的问题（知识点复习）">
-<meta property="og:url" content="http://yoursite.com/2020/07/11/git/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%8F%8A%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/index.html">
+<meta property="og:url" content="http://yoursite.com/2020/07/11/git/index.html">
 <meta property="og:site_name" content="谦修">
 <meta property="og:description" content="心得 设计理想是根据五维平衡宇宙的概念，可以穿梭在任意的时间点，对其修改和重置，而在git中最重要的两个概念就是版本管理（相当于可以任意进出历史和未来，并可以对其控制）和多人协作（平衡时空，可以把任意一段历史copy成很多份，每一份都可以进行修改，而且在多人修改之后，还可以多层次的平衡时空给合并了~）   可以把它想象成文件时光机，有了它就可以将某个文件夹回溯到之前的状态，甚至将整个项目都回退到过">
-<meta property="og:image" content="http://yoursite.com/2020/07/11/git/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%8F%8A%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/images/1593499472(1).jpg">
-<meta property="og:image" content="http://yoursite.com/2020/07/11/git/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%8F%8A%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/images/1593499920(1).png">
-<meta property="og:image" content="http://yoursite.com/2020/07/11/git/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%8F%8A%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/images/1593499920(1).png">
-<meta property="og:image" content="http://yoursite.com/2020/07/11/git/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%8F%8A%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/images/1593500065(1).jpg">
-<meta property="og:image" content="http://yoursite.com/2020/07/11/git/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%8F%8A%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/images/1593500065(1).jpg">
-<meta property="og:image" content="http://yoursite.com/2020/07/11/git/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%8F%8A%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/.%5Cimages%5C1593501005(1).jpg">
-<meta property="og:image" content="http://yoursite.com/2020/07/11/git/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%8F%8A%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/images/1593499472(1).jpg">
-<meta property="og:image" content="http://yoursite.com/2020/07/11/git/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%8F%8A%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/.%5Cimages%5C1593501127(1).png">
-<meta property="og:image" content="http://yoursite.com/2020/07/11/git/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%8F%8A%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/images/1593499472(1).jpg">
-<meta property="og:image" content="c:%5CUsers%5Casus%5CDesktop%5Cgit%5Cimages%5C1593505856(1).jpg">
-<meta property="og:image" content="http://yoursite.com/2020/07/11/git/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%8F%8A%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/images/1593499472(1).jpg">
+<meta property="og:image" content="http://yoursite.com/2020/07/11/git/images/1593499472(1).jpg">
+<meta property="og:image" content="http://yoursite.com/2020/07/11/git/images/1593499472(1).jpg">
+<meta property="og:image" content="http://yoursite.com/2020/07/11/git/1593499920(1).png">
+<meta property="og:image" content="http://yoursite.com/2020/07/11/git/1593499920(1).png">
+<meta property="og:image" content="http://yoursite.com/2020/07/11/git/1593500065(1).jpg">
+<meta property="og:image" content="http://yoursite.com/2020/07/11/git/1593500065(1).jpg">
+<meta property="og:image" content="http://yoursite.com/2020/07/11/git/.%5Cimages%5C1593501005(1).jpg">
+<meta property="og:image" content="http://yoursite.com/2020/07/11/git/1593499472(1).jpg">
+<meta property="og:image" content="http://yoursite.com/2020/07/11/git/.%5Cimages%5C1593501127(1).png">
+<meta property="og:image" content="http://yoursite.com/2020/07/11/git/1593499472(1).jpg">
+<meta property="og:image" content="http://yoursite.com/2020/07/11/git/C:%5CUsers%5Casus%5CDesktop%5Cgit%5Cimages%5C1593505856(1).jpg">
+<meta property="og:image" content="http://yoursite.com/2020/07/11/git/1593499472(1).jpg">
 <meta property="article:published_time" content="2020-07-11T10:26:00.000Z">
-<meta property="article:modified_time" content="2020-07-13T03:08:13.437Z">
+<meta property="article:modified_time" content="2020-07-13T03:31:58.580Z">
 <meta property="article:author" content="终身学习">
 <meta property="article:tag" content="Git原理">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2020/07/11/git/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%8F%8A%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/images/1593499472(1).jpg">
+<meta name="twitter:image" content="http://yoursite.com/2020/07/11/git/images/1593499472(1).jpg">
 
 
 
@@ -131,7 +132,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/07/11/git/git常用命令及协同开发/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/07/11/git/"/>
 
 
 
@@ -274,7 +275,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/11/git/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%8F%8A%E5%8D%8F%E5%90%8C%E5%BC%80%E5%8F%91/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/11/git/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="终身学习">
@@ -379,19 +380,16 @@
 <p>分布式 ：真正的从控制系统克隆。版本库丢了，本地代码还是真实存在的</p>
 </blockquote>
 <blockquote>
-<p>集中式：只是一个快照。如果版本库丢了，本地的快照也都没用了</p>
+<p>集中式：只是一个快照。如果版本库丢了，本地的快照也都没用了<br><img src="/2020/07/11/git/images/1593499472(1).jpg" alt="1593499472(1)"><br><img src="/2020/07/11/git/images/1593499472(1).jpg" alt="1593499472(1).jpg"></p>
 </blockquote>
-<img src='./images/1593499472(1).jpg' alt="1593499472(1).jpg"/>
-### Git基础原理
-
-<h4 id="增量变化"><a href="#增量变化" class="headerlink" title="增量变化"></a>增量变化</h4><blockquote>
+<h3 id="Git基础原理"><a href="#Git基础原理" class="headerlink" title="Git基础原理"></a>Git基础原理</h3><h4 id="增量变化"><a href="#增量变化" class="headerlink" title="增量变化"></a>增量变化</h4><blockquote>
 <p>增量更新：版本之间，只记录变化，</p>
 </blockquote>
-<p><img src="./images/1593499920(1).png" alt="1593499920(1)"><br><img src='./images/1593499920(1).png' alt="1593499920(1).png"/></p>
+<p><img src="/2020/07/11/git/1593499920(1).png" alt="1593499920(1)"><br><img src="/2020/07/11/git/1593499920(1).png" alt="1593499920(1).png"></p>
 <h4 id="全量变化"><a href="#全量变化" class="headerlink" title="全量变化"></a>全量变化</h4><blockquote>
 <p>全量更新：无论是否变化，任何一个版本都有全部的快照</p>
 </blockquote>
-<p><img src="./images/1593500065(1).jpg" alt="1593500065(1)"><br><img src='./images/1593500065(1).jpg' alt="1593500065(1).jpg"/></p>
+<p><img src="/2020/07/11/git/1593500065(1).jpg" alt="1593500065(1)"><br><img src="/2020/07/11/git/1593500065(1).jpg" alt="1593500065(1).jpg"></p>
 <h4 id="Git工作区及文件状态"><a href="#Git工作区及文件状态" class="headerlink" title="Git工作区及文件状态"></a>Git工作区及文件状态</h4><ul>
 <li>工作目录[Working Diectory]：像vsCode和idea</li>
 <li>暂存区[Staging Area(index)]：缓存区，一个一个的版本全是由缓存区的内容构成的，若干个版本形成了一个仓库，由指令把本地文件放入缓存区，再由指令把缓存区的版本形成一个一个的版本。</li>
@@ -399,11 +397,11 @@
 <li>未提交过的文件：从untracked开始</li>
 <li>提交过的文件：从modified开始</li>
 </ul>
-<p><img src=".%5Cimages%5C1593501005(1).jpg" alt="1593501005(1)"><br><img src='./images/1593499472(1).jpg' alt="1593499472(1).jpg"/></p>
+<p><img src="/2020/07/11/git/.%5Cimages%5C1593501005(1).jpg" alt="1593501005(1)"><br><img src="/2020/07/11/git/1593499472(1).jpg" alt="1593499472(1).jpg"></p>
 <h4 id="工作目录、暂存区、仓库之间的关系"><a href="#工作目录、暂存区、仓库之间的关系" class="headerlink" title="工作目录、暂存区、仓库之间的关系"></a>工作目录、暂存区、仓库之间的关系</h4><ul>
 <li>头指针：指向最近一个版本的快照</li>
 </ul>
-<p><img src=".%5Cimages%5C1593501127(1).png" alt="1593501127(1)"><br><img src='./images/1593499472(1).jpg' alt="1593499472(1).jpg"/></p>
+<p><img src="/2020/07/11/git/.%5Cimages%5C1593501127(1).png" alt="1593501127(1)"><br><img src="/2020/07/11/git/1593499472(1).jpg" alt="1593499472(1).jpg"></p>
 <h3 id="日常开发中Git的使用"><a href="#日常开发中Git的使用" class="headerlink" title="日常开发中Git的使用"></a>日常开发中Git的使用</h3><ul>
 <li><p>git init : 初始化一个空的git仓库，存在的各个版本的信息</p>
 </li>
@@ -446,8 +444,8 @@
 <li>可以利用主键进行版本回退</li>
 <li>主键算法：40位的16进制的数字组合而成，利加密算法[sha1-1:安全散列算法]进行排列</li>
 </ul>
-<p><img src="C:%5CUsers%5Casus%5CDesktop%5Cgit%5Cimages%5C1593505856(1).jpg" alt="1593505856(1)"></p>
-<img src='./images/1593499472(1).jpg' alt="1593499472(1).jpg"/>
+<p><img src="/2020/07/11/git/C:%5CUsers%5Casus%5CDesktop%5Cgit%5Cimages%5C1593505856(1).jpg" alt="1593505856(1)"></p>
+<img src="/2020/07/11/git/1593499472(1).jpg" alt="1593499472(1).jpg">
 </li>
 <li><p>git reflog: 查看历史版本</p>
 </li>
@@ -461,18 +459,18 @@
 </li>
 <li><p>git diff –cached : 比较暂存区与本地库中最近一次commit的内容</p>
 </li>
-<li><p>git diff <commit-id> <commit-id>: 比较两个commit之间的差异</p>
+<li><p>git diff <commit-id> <commit-id>: 比较两个commit之间的差异</commit-id></commit-id></p>
 </li>
 </ul>
 <hr>
 <h3 id="分支上的操作"><a href="#分支上的操作" class="headerlink" title="分支上的操作"></a>分支上的操作</h3><p>一般master作为主分支，部署的是bug最少的一个分支</p>
 <ul>
-<li>git branch <branch>: 创建新的分支</li>
-<li>git checkout <branch>：切换分支</li>
+<li>git branch <branch>: 创建新的分支</branch></li>
+<li>git checkout <branch>：切换分支</branch></li>
 <li>git branch: 查看所有分支</li>
 <li>git checkout -b ‘分支名称’:  创建并切换到新的分支</li>
-<li>git merge <branch>: 无冲突合并</li>
-<li>git branch -d <branch>: 删除分支</li>
+<li>git merge <branch>: 无冲突合并</branch></li>
+<li>git branch -d <branch>: 删除分支</branch></li>
 </ul>
 <h3 id="文件暂存"><a href="#文件暂存" class="headerlink" title="文件暂存"></a>文件暂存</h3><ul>
 <li>git stash save -a ‘message’: 添加改动到stash</li>
@@ -724,7 +722,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#心得"><span class="nav-number">1.</span> <span class="nav-text">心得</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Git"><span class="nav-number">2.</span> <span class="nav-text">Git</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#版本控制系统"><span class="nav-number">3.</span> <span class="nav-text">版本控制系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#版本控制系统的演进"><span class="nav-number">3.1.</span> <span class="nav-text">版本控制系统的演进</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#增量变化"><span class="nav-number">3.2.</span> <span class="nav-text">增量变化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#全量变化"><span class="nav-number">3.3.</span> <span class="nav-text">全量变化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Git工作区及文件状态"><span class="nav-number">3.4.</span> <span class="nav-text">Git工作区及文件状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#工作目录、暂存区、仓库之间的关系"><span class="nav-number">3.5.</span> <span class="nav-text">工作目录、暂存区、仓库之间的关系</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#日常开发中Git的使用"><span class="nav-number">4.</span> <span class="nav-text">日常开发中Git的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分支上的操作"><span class="nav-number">5.</span> <span class="nav-text">分支上的操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件暂存"><span class="nav-number">6.</span> <span class="nav-text">文件暂存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#远程操作"><span class="nav-number">7.</span> <span class="nav-text">远程操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#【问题-】配置github"><span class="nav-number">8.</span> <span class="nav-text">【问题 】配置github</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#【问题】更新本地代码到远程仓库且合并"><span class="nav-number">9.</span> <span class="nav-text">【问题】更新本地代码到远程仓库且合并</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#【问题】切换不到远程仓库新的分支"><span class="nav-number">10.</span> <span class="nav-text">【问题】切换不到远程仓库新的分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#【问题】-rejected-master-gt-master-non-fast-forward-error-failed-to-push-some-refs-to-‘http…’"><span class="nav-number">11.</span> <span class="nav-text">【问题】[rejected]  master -&gt; master (non-fast-forward) error: failed to push some refs to ‘http…’</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#心得"><span class="nav-number">1.</span> <span class="nav-text">心得</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Git"><span class="nav-number">2.</span> <span class="nav-text">Git</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#版本控制系统"><span class="nav-number">3.</span> <span class="nav-text">版本控制系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#版本控制系统的演进"><span class="nav-number">3.1.</span> <span class="nav-text">版本控制系统的演进</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Git基础原理"><span class="nav-number">4.</span> <span class="nav-text">Git基础原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#增量变化"><span class="nav-number">4.1.</span> <span class="nav-text">增量变化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#全量变化"><span class="nav-number">4.2.</span> <span class="nav-text">全量变化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Git工作区及文件状态"><span class="nav-number">4.3.</span> <span class="nav-text">Git工作区及文件状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#工作目录、暂存区、仓库之间的关系"><span class="nav-number">4.4.</span> <span class="nav-text">工作目录、暂存区、仓库之间的关系</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#日常开发中Git的使用"><span class="nav-number">5.</span> <span class="nav-text">日常开发中Git的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分支上的操作"><span class="nav-number">6.</span> <span class="nav-text">分支上的操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件暂存"><span class="nav-number">7.</span> <span class="nav-text">文件暂存</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#远程操作"><span class="nav-number">8.</span> <span class="nav-text">远程操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#【问题-】配置github"><span class="nav-number">9.</span> <span class="nav-text">【问题 】配置github</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#【问题】更新本地代码到远程仓库且合并"><span class="nav-number">10.</span> <span class="nav-text">【问题】更新本地代码到远程仓库且合并</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#【问题】切换不到远程仓库新的分支"><span class="nav-number">11.</span> <span class="nav-text">【问题】切换不到远程仓库新的分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#【问题】-rejected-master-gt-master-non-fast-forward-error-failed-to-push-some-refs-to-‘http…’"><span class="nav-number">12.</span> <span class="nav-text">【问题】[rejected]  master -&gt; master (non-fast-forward) error: failed to push some refs to ‘http…’</span></a></li></ol></div>
             
 
           </div>
