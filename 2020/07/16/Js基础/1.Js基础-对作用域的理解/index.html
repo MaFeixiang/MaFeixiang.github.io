@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="谦修">
 <meta property="og:description" content="结论 作用域：作用域就是一套规则，这套规则用来管理引擎如何在当前作用域以及嵌套的子作用域中根据标识符名称进行变量查找；如果查找的目的是对其进行赋值，那么就会使用LHS查询；如果目的是获取目的变量的值，那么就会使用RHS查找；不成功的RHS引用会导致抛出ReferenceError异常。不成功的LHS引用会导致自动隐式地创建一个全局变量（非严格模式下），严格模式下，不成功的LHS引用也会导致抛出Re">
 <meta property="article:published_time" content="2020-07-16T02:59:00.000Z">
-<meta property="article:modified_time" content="2020-07-16T09:56:51.276Z">
+<meta property="article:modified_time" content="2020-07-16T10:00:14.743Z">
 <meta property="article:author" content="终身学习">
 <meta property="article:tag" content="Js基础">
 <meta name="twitter:card" content="summary">
@@ -353,8 +353,10 @@
       
         <h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><ul>
 <li>作用域：作用域就是一套规则，这套规则用来管理引擎如何在当前作用域以及嵌套的子作用域中根据标识符名称进行变量查找；如果查找的目的是对其进行赋值，那么就会使用LHS查询；如果目的是获取目的变量的值，那么就会使用RHS查找；不成功的RHS引用会导致抛出ReferenceError异常。不成功的LHS引用会导致自动隐式地创建一个全局变量（非严格模式下），严格模式下，不成功的LHS引用也会导致抛出ReferenceError异常。</li>
-<li>词法作用域：作用域共有两种主要的工作模型，一种是普遍使用的词法作用域工作模型，另一种是动态作用域工作模型，词法作用域是一套关于引擎如何寻找变量以及会在何处找到变量的规则。词法作用域最重要的特征是它的定义过程是发生在代码书写阶段（假设没有使用with()和eval()）。</li>
 </ul>
+<a id="more"></a>
+
+
 <h3 id="作用域详解"><a href="#作用域详解" class="headerlink" title="作用域详解"></a>作用域详解</h3><h4 id="编译原理"><a href="#编译原理" class="headerlink" title="编译原理"></a>编译原理</h4><blockquote>
 <p>谈作用域为什么会说到编译原理，虽然js是解释性语言，但是根本上它本是一门编译语言，因为在js执行的前几微秒内是js编译阶段，这个阶段非常重要，包括了对源码编译和js引擎用尽了各种办法（比如JIT,可以延迟编译甚至实施重编译）来保证性能最佳，程序中的一段源码在执行之前会经历三个步骤，统称为”编译”，在编译阶段，编译器会询问作用域关于变量的种种，来确定变量是否创建、内存分配以及对其赋值。</p>
 </blockquote>

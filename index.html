@@ -352,86 +352,16 @@
 
       
         
-          
-            <h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><ul>
+          <h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><ul>
 <li>作用域：作用域就是一套规则，这套规则用来管理引擎如何在当前作用域以及嵌套的子作用域中根据标识符名称进行变量查找；如果查找的目的是对其进行赋值，那么就会使用LHS查询；如果目的是获取目的变量的值，那么就会使用RHS查找；不成功的RHS引用会导致抛出ReferenceError异常。不成功的LHS引用会导致自动隐式地创建一个全局变量（非严格模式下），严格模式下，不成功的LHS引用也会导致抛出ReferenceError异常。</li>
-<li>词法作用域：作用域共有两种主要的工作模型，一种是普遍使用的词法作用域工作模型，另一种是动态作用域工作模型，词法作用域是一套关于引擎如何寻找变量以及会在何处找到变量的规则。词法作用域最重要的特征是它的定义过程是发生在代码书写阶段（假设没有使用with()和eval()）。</li>
 </ul>
-<h3 id="作用域详解"><a href="#作用域详解" class="headerlink" title="作用域详解"></a>作用域详解</h3><h4 id="编译原理"><a href="#编译原理" class="headerlink" title="编译原理"></a>编译原理</h4><blockquote>
-<p>谈作用域为什么会说到编译原理，虽然js是解释性语言，但是根本上它本是一门编译语言，因为在js执行的前几微秒内是js编译阶段，这个阶段非常重要，包括了对源码编译和js引擎用尽了各种办法（比如JIT,可以延迟编译甚至实施重编译）来保证性能最佳，程序中的一段源码在执行之前会经历三个步骤，统称为”编译”，在编译阶段，编译器会询问作用域关于变量的种种，来确定变量是否创建、内存分配以及对其赋值。</p>
-</blockquote>
-<ul>
-<li>分词/词法分析（Tokenizing/Lexing）<ul>
-<li>这个过程会将由字符串分解成有意义的代码块，这些代码块被称为词法单元(token)。例如，考虑程序var a = 2;。这段程序通常会被分解成为下面这些词法单元: var、a、=、2、;。空格是否会被当作词法单元，取决于空格在这门语言是否具有意义。</li>
-</ul>
-</li>
-<li>解析/语法分析（Parsing）<ul>
-<li>这个过程是将词法单元流（数组）转换成一个由元素逐级嵌套所组成的代表了程序语法结构的树。这个树被称为“抽象语法树”（Abstract Syntax Tree, AST)。</li>
-</ul>
-</li>
-<li>代码生成<ul>
-<li>将AST转换为可执行代码的过程被称为代码生成。这个过程与语言、目标平台等息息县关</li>
-<li>抛开具体细节，简单来说就是某种方法可以将var a = 2;的AST抽象语法树转化为一组机器指令，用来创建一个叫a的变量（包括内存分配），并将一个值存储在中。</li>
-</ul>
-</li>
-</ul>
-<h4 id="理解作用域"><a href="#理解作用域" class="headerlink" title="理解作用域"></a>理解作用域</h4><ul>
-<li>如何才能更好的去理解作用域是什么，把它模拟成几个重要人物的对话。</li>
-</ul>
-<ul>
-<li>从三个视角对整个js编译和执行的过程进行理解和拆分<ul>
-<li>引擎：从头到尾负责整个JavaScript程序的编译及执行的过程</li>
-<li>编译器：引擎的好朋友之一，负责语法分析和代码生成的工作</li>
-<li>作用域：引擎的另一位好朋友，负责收集并维护由所有声明的标识符（变量）组成的一系列查询，并实施一套非常严格的规则，确定当前执行的代码对这些标识符的访问权限</li>
-</ul>
-</li>
-</ul>
-<h5 id="作用域和编译器的对话"><a href="#作用域和编译器的对话" class="headerlink" title="作用域和编译器的对话"></a>作用域和编译器的对话</h5><blockquote>
-<p>var a = 2; 编译器和作用域是如何对这段代码进行操作的？</p>
-</blockquote>
-<ul>
-<li>遇到var a,编译器会询问作用域是否已经有一个该名称的变量存在于同一个作用域的集合中。如果是，编译器会忽略该声明，继续进行编译；否则它会要求作用域在当前作用域的集合中声明一个新的变量，并命名a。</li>
-<li>接下来编译器会为引擎生成运行时所需要的代码，这些代码被用来处理a = 2;这个赋值操作。引擎运行时会首先询问作用域，在当前的作用域集合中是否存在一个叫做a的变量。如果是，引擎就会继续使用这个变量；如果否，引擎会继续查找该变量。</li>
-<li>总结：变量的赋值操作会执行两个动作，首先编译器会在当前作用域声明一个变量（如果之前没有声明），然后再运行时引擎会在作用域查找该变量，如果能找到就会对它赋值。</li>
-<li>额外的信息：从上面的两段话，可以看出，当在编译阶段（还未执行代码），js引擎就已经把变量给放到了作用域中，在代码执行阶段，才对其赋值，这里就已经暗示了变量提升。</li>
-</ul>
-<h5 id="编译器中的LHS和RHS"><a href="#编译器中的LHS和RHS" class="headerlink" title="编译器中的LHS和RHS"></a>编译器中的LHS和RHS</h5><ul>
-<li><p>当变量出现在赋值操作的左侧时进行LHS查询，出现在右侧进行RHS查询。讲得更准确一点，RHS查询与简单地查找某个变量的值别无二致，而LHS查询则是视图找到变量的容器本身，从而可以对其赋值。从这个角度说，RHS并不是真正意义上的“赋值操作的右侧”，更准确地说是“非左侧”。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(a) <span class="comment">// RHS引用</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> b = <span class="number">2</span>; <span class="comment">// LHS引用</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params">c</span>) </span>&#123; </span><br><span class="line">  <span class="built_in">console</span>.log(c); <span class="comment">// RHS引用</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">test(<span class="number">2</span>); <span class="comment">// LHS引用 c = 2;</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>为什么会用到LHS和RHS一是引擎在查找变量时会用到，二是LHS和RHS对于未找到情况的两种异常的处理。</p>
-</li>
-</ul>
-<h5 id="引擎和作用域的对话"><a href="#引擎和作用域的对话" class="headerlink" title="引擎和作用域的对话"></a>引擎和作用域的对话</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line"> 	<span class="built_in">console</span>.log(a); <span class="comment">// 2</span></span><br><span class="line">&#125;</span><br><span class="line">foo(<span class="number">2</span>);</span><br></pre></td></tr></table></figure>
-
-<p>引擎和作用域之间是如何处理上面这段代码</p>
-<ul>
-<li>引擎：首先询问作用域，对foo进行RHS引用</li>
-<li>作用域：判断编译器是否声明了foo，不存在，报错，存在，变量还是函数</li>
-<li>引擎：执行foo()</li>
-<li>引擎：在执行foo时，询问作用域，对a进行LHS引用</li>
-<li>作用域：判断编译器是否声明了a的形参，不存在：报错，存在：告诉引擎</li>
-<li>引擎：对a赋值2</li>
-<li>引擎：询问作用域，为console进行RHS的引用</li>
-<li>作用域：console为内置对象，存在：告诉作用域</li>
-<li>引擎：寻找内置对象console中是否存在log()方法</li>
-<li>引擎：询问作用域，对a进行RHS引用</li>
-<li>作用域：在作用域中寻找a，不存在：报错，存在：告诉引擎</li>
-<li>引擎：对a进行赋值，传递到log()，执行console.log()。</li>
-</ul>
-<h4 id="作用域嵌套和作用域中变量（标识符）查找规则"><a href="#作用域嵌套和作用域中变量（标识符）查找规则" class="headerlink" title="作用域嵌套和作用域中变量（标识符）查找规则"></a>作用域嵌套和作用域中变量（标识符）查找规则</h4><ul>
-<li>总结：当一个块或函数嵌套在另一个块或函数中时，就发生了作用域的嵌套（作用域链）。因此在当前作用域无法寻找某个变量时，引擎就会在外层嵌套的作用域中继续查找，直到找到该变量，或抵达最外层的作用域为止。</li>
-</ul>
-<h4 id="异常"><a href="#异常" class="headerlink" title="异常"></a>异常</h4><ul>
-<li>为什么区分LHS和RHS是很重要的事情<ul>
-<li>因为在变量还没有声明（在任何作用域中都无法找到该变量）的情况下，这两种查询的行为是完全不一样的。</li>
-</ul>
-</li>
-<li>在作用域中用 RHS进行变量查找时，并且查找的规则是从当前作用域开始找，如果没找到再到父级作用域中找，一层层往外找，如果在全局作用域如果还没找到的话，就会报错了：ReferenceError: 某变量 is not defined</li>
-<li>在作用域用LHS查找变量时，如果在顶层也没有查找到改变量，全局作用域中就会创建一个具有该名称的变量，并将其返回给引擎，前提是程序在非“严格模式”下。在严格模式中，LHS也会抛出一个：ReferenceError。</li>
-</ul>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/07/16/Js%E5%9F%BA%E7%A1%80/1.Js%E5%9F%BA%E7%A1%80-%E5%AF%B9%E4%BD%9C%E7%94%A8%E5%9F%9F%E7%9A%84%E7%90%86%E8%A7%A3/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
