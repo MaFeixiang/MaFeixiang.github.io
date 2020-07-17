@@ -260,6 +260,160 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/17/designPattern/7.%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="终身学习">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="谦修">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/07/17/designPattern/7.%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/" itemprop="url">设计模式-策略模式</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-17T23:55:00+08:00">
+                2020-07-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h3><ul>
+<li>策略模式是指对一系列的算法定义，并将一个算法封装起来，而且使它们还可以相互替换。策略模式让算法独立于使用它的客户而独立变化。</li>
+<li>策略模式的优点有：策略模式提供了管理相关算法族的办法、策略模式提供了可以替换继承关系的办法、使用策略模式可以避免使用多重条件转移语句。</li>
+<li>业务复杂度达到一定程度了我们才选用设计模式去解决复杂的问题，扩展性，复用性，冗余度，小的情况没有必要使用。</li>
+</ul>
+<h3 id="设计模式-策略模式-特点说明"><a href="#设计模式-策略模式-特点说明" class="headerlink" title="设计模式-策略模式-特点说明"></a>设计模式-策略模式-特点说明</h3><ul>
+<li>策略模式支持你在运行时选择算法，把他们一个一个封装起来，并使他们可以相互替换。</li>
+<li>决定一个类对象实例来管理规则的校验。</li>
+<li>该对象要能，相应的主动添加对规则的相应的处理办法。</li>
+<li>校验数据的时候可以相应的返回相关信息</li>
+</ul>
+<h3 id="【例子】：优雅的处理校验"><a href="#【例子】：优雅的处理校验" class="headerlink" title="【例子】：优雅的处理校验"></a>【例子】：优雅的处理校验</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 构造函数 -&gt; 创建对象实例</span></span><br><span class="line"><span class="comment">// 迎合策略模式的一个对象</span></span><br><span class="line"><span class="comment">// 符合开闭原则</span></span><br><span class="line"><span class="comment">// add: 参数1:校验内容dom, 参数2: 错误信息显示dom，参数3: 校验规则</span></span><br><span class="line"><span class="comment">// add 添加校验规则（dom(校验谁), showDom(错误的信息展示到哪里),[&#123;strategy（策略）: 'isNonEmpty（策略实现）', errorMsg（错误返回的信息）: '用户名不为空'&#125;, &#123;strategy: 'maxLength:4', errorMsg: '用户名长度不能超过4'&#125;]）</span></span><br><span class="line"><span class="comment">// start 开始校验并返回真正的校验结果</span></span><br><span class="line"><span class="comment">// extend 可以扩展 算法 &#123;isMail(算法名称): function () &#123;&#125;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Validator</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.cache = []; <span class="comment">// 缓存作用 -&gt; 把所有执行的校验放入其中，等待start()执行</span></span><br><span class="line">    <span class="keyword">this</span>.warnDom = []; <span class="comment">// 存放提示信息标签的id -&gt; 清除上次的提示信息</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 初始化校验规则</span></span><br><span class="line">Validator.prototype.strategies = &#123;</span><br><span class="line">    <span class="comment">// 判断是否为空</span></span><br><span class="line">    isNonEmpty: <span class="function"><span class="keyword">function</span> (<span class="params">value, errorMsg</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (value == <span class="string">''</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> errorMsg;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 判断长度最大不能超过几</span></span><br><span class="line">    maxLength: <span class="function"><span class="keyword">function</span> (<span class="params">value, length, errorMsg</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (value != <span class="string">''</span> &amp;&amp; value.length &gt; length) &#123;</span><br><span class="line">            <span class="keyword">return</span> errorMsg;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 判断长度最小不能小于几</span></span><br><span class="line">    minLength: <span class="function"><span class="keyword">function</span> (<span class="params">value, length, errorMsg</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (value != <span class="string">''</span> &amp;&amp; value.length &lt; length) &#123;</span><br><span class="line">            <span class="keyword">return</span> errorMsg;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 调用校验规则 -&gt; 只调用，不触发</span></span><br><span class="line">Validator.prototype.add = <span class="function"><span class="keyword">function</span> (<span class="params">dom, showdom, strategyArr</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> self = <span class="keyword">this</span>;</span><br><span class="line">    <span class="comment">// 把提示标签放到warnDom里面</span></span><br><span class="line">    <span class="keyword">this</span>.warnDom.push(showdom)</span><br><span class="line">    strategyArr.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">ele, index</span>) </span>&#123;</span><br><span class="line">        self.cache.push(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="comment">// 把方法缓存到cache</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// 'maxLength:4'.split[':'] ==&gt; ['maxLength', '4']</span></span><br><span class="line">            <span class="comment">// arr = ['isNonEmpty'] 第一圈</span></span><br><span class="line">            <span class="comment">// arr = ['maxLength', '4']  第二圈</span></span><br><span class="line">            <span class="keyword">var</span> arr = ele.stratrgy.split(<span class="string">':'</span>); <span class="comment">// 用冒号拆分</span></span><br><span class="line">            <span class="comment">// shift =&gt; 删除数组中第一个元素并返回</span></span><br><span class="line">            <span class="comment">// arr =&gt; [], ['4']</span></span><br><span class="line">            <span class="comment">// type =&gt; isNonEmpty maxLength</span></span><br><span class="line">            <span class="keyword">var</span> type = arr.shift();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// unshift: 把元素加到数组的第一位</span></span><br><span class="line">            <span class="comment">// [dom.value] [dom.value, '4']</span></span><br><span class="line">            arr.unshift(dom.value);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// [dom.value, errorMsg] [dom.value, '4', errorMsg]</span></span><br><span class="line">            arr.push(ele.errorMsg);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 返回true或者false</span></span><br><span class="line">            <span class="keyword">var</span> msg = self.strategies[type].apply(self, arr);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (msg != <span class="literal">true</span>) &#123;</span><br><span class="line">                <span class="comment">// 这里只是提示，没有清空</span></span><br><span class="line">                showdom.innerText = msg;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> msg;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 触发校验规则 -&gt; 返回校验处理信息 -&gt; true/false</span></span><br><span class="line">Validator.prototype.start = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> flag = <span class="literal">true</span>; <span class="comment">// 标记最后是否能符合规则</span></span><br><span class="line">    <span class="keyword">this</span>.warnDom.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">ele</span>) </span>&#123;</span><br><span class="line">        <span class="comment">// 每次提交之前先清空提示信息</span></span><br><span class="line">        ele.innerText = <span class="string">''</span>;</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">this</span>.cache.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">ele, index</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (ele() != <span class="literal">true</span>) &#123; <span class="comment">// 判断执行之后的返回值是否等于true</span></span><br><span class="line">            flag = <span class="literal">false</span>; <span class="comment">// 如果有一个不是true最后flag就会等于false</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> flag;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 扩展校验规则 -&gt; 把扩展的校验规则放入strategies中等待被调用</span></span><br><span class="line"></span><br><span class="line">Validator.prototype.extend = <span class="function"><span class="keyword">function</span> (<span class="params">config</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// config是扩展放的总和 -&gt; 对象</span></span><br><span class="line">    <span class="comment">// 遍历每一个对象 -&gt; 把规则放到strategies中</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> prop <span class="keyword">in</span> config) &#123;</span><br><span class="line">        Validator.prototype.strategies[prop] = config[prop];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/17/designPattern/6.%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1624,7 +1778,7 @@
               
                 <a href="/archives%7C%7Carchive">
               
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
