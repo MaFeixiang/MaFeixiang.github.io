@@ -95,7 +95,7 @@ function postData(url, data) {
         },
         error: function (data) {
             // console.log(data);
-            returnPOst = data;
+            returnPost = data;
         }
     })
     return returnPost;
