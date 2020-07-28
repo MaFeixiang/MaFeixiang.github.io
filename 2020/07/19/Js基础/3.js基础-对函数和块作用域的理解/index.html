@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Js基础," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="心得 函数是JavaScript中最常见的作用域单元。本质上，声明在一个函数内部的变量或函数会在所处的作用域中“隐藏”起来。符合最小暴露原则。常用的软件设计原则。 和函数作用域一样的还有块级作用域ES3:with和try&#x2F;catch；ES6中有: {}&#x2F;let&#x2F;const。 函数声明和函数表达式的区别：函数表达式被绑定在函数表达式自身的函数中而不是所在作用域。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ja基础-对函数（块）作用域的理解">
+<meta property="og:url" content="http://yoursite.com/2020/07/19/Js%E5%9F%BA%E7%A1%80/3.js%E5%9F%BA%E7%A1%80-%E5%AF%B9%E5%87%BD%E6%95%B0%E5%92%8C%E5%9D%97%E4%BD%9C%E7%94%A8%E5%9F%9F%E7%9A%84%E7%90%86%E8%A7%A3/index.html">
+<meta property="og:site_name" content="谦修">
+<meta property="og:description" content="心得 函数是JavaScript中最常见的作用域单元。本质上，声明在一个函数内部的变量或函数会在所处的作用域中“隐藏”起来。符合最小暴露原则。常用的软件设计原则。 和函数作用域一样的还有块级作用域ES3:with和try&#x2F;catch；ES6中有: {}&#x2F;let&#x2F;const。 函数声明和函数表达式的区别：函数表达式被绑定在函数表达式自身的函数中而不是所在作用域。">
+<meta property="article:published_time" content="2020-07-19T14:53:00.000Z">
+<meta property="article:modified_time" content="2020-07-28T14:58:44.637Z">
+<meta property="article:author" content="终身学习">
+<meta property="article:tag" content="Js基础">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/07/19/Js基础/3.js基础-对函数和块作用域的理解/"/>
+
+
+
+
+
+  <title>Ja基础-对函数（块）作用域的理解 | 谦修</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">谦修</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">宇宙山河浪漫，人间点滴温暖，都值得我前行</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/19/Js%E5%9F%BA%E7%A1%80/3.js%E5%9F%BA%E7%A1%80-%E5%AF%B9%E5%87%BD%E6%95%B0%E5%92%8C%E5%9D%97%E4%BD%9C%E7%94%A8%E5%9F%9F%E7%9A%84%E7%90%86%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="终身学习">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="谦修">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Ja基础-对函数（块）作用域的理解</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-19T22:53:00+08:00">
+                2020-07-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Js%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index">
+                    <span itemprop="name">Js基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/07/19/Js%E5%9F%BA%E7%A1%80/3.js%E5%9F%BA%E7%A1%80-%E5%AF%B9%E5%87%BD%E6%95%B0%E5%92%8C%E5%9D%97%E4%BD%9C%E7%94%A8%E5%9F%9F%E7%9A%84%E7%90%86%E8%A7%A3/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/07/19/Js%E5%9F%BA%E7%A1%80/3.js%E5%9F%BA%E7%A1%80-%E5%AF%B9%E5%87%BD%E6%95%B0%E5%92%8C%E5%9D%97%E4%BD%9C%E7%94%A8%E5%9F%9F%E7%9A%84%E7%90%86%E8%A7%A3/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="心得"><a href="#心得" class="headerlink" title="心得"></a>心得</h3><ul>
+<li>函数是JavaScript中最常见的作用域单元。本质上，声明在一个函数内部的变量或函数会在所处的作用域中“隐藏”起来。符合最小暴露原则。常用的软件设计原则。</li>
+<li>和函数作用域一样的还有块级作用域ES3:with和try/catch；ES6中有: {}/let/const。</li>
+<li>函数声明和函数表达式的区别：函数表达式被绑定在函数表达式自身的函数中而不是所在作用域。</li>
+</ul>
+<a id="more"></a>
+
+
+
+<h4 id="什么是函数（块）作用域"><a href="#什么是函数（块）作用域" class="headerlink" title="什么是函数（块）作用域"></a>什么是函数（块）作用域</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">10</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> b = <span class="number">10</span>;</span><br><span class="line">        <span class="built_in">console</span>.log(a, b)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(a) <span class="comment">// 报错</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>这上述的代码片段中，foo(…)函数包含了标识符a, bar。无论标识符出现在作用域的何处，这个标识符所代表的变量或函数都将附属于所处的作用域，但是这个标识符只能在函数内部对其进行访问（或者更下层的函数，bar函数中可以访问到foo函数内的变量a），外部是访问不到foo()函数内的标识符。</li>
+<li>函数（块）作用域的含义是指，属于这个函数的全部变量都可以在整个函数的范围内使用以及复用。</li>
+</ul>
+<h3 id="函数作用域的几个特点"><a href="#函数作用域的几个特点" class="headerlink" title="函数作用域的几个特点"></a>函数作用域的几个特点</h3><h4 id="隐藏内部实现"><a href="#隐藏内部实现" class="headerlink" title="隐藏内部实现"></a>隐藏内部实现</h4><ul>
+<li><p>函数内部的变量是无法通过外部去访问的，可以把不想被外界访问的变量可以通过被函数”包裹”的方式，对变量进行”隐藏”，从而达到对变量的私有化。</p>
+</li>
+<li><p>谈一下”隐藏”变量和函数为什么是有用的技术？</p>
+<ul>
+<li>这种基于作用域的隐藏方法，大都是从最小特权原则中引申出来的，也叫最小授权或最小暴露原则。这个原则是指在软件设计中，应该最小限度地暴露必要内容，而其它内容都”隐藏”起来，比如某个模块或对象的API设计。</li>
+</ul>
+</li>
+</ul>
+<h4 id="规避冲突"><a href="#规避冲突" class="headerlink" title="规避冲突"></a>规避冲突</h4><ul>
+<li>“隐藏”作用域中的变量和函数所带来的另一个好处，是可以避免同名标识符之间的冲突，两个标识符可能具有相同的名字却用途不一样，无意间造成的命名冲突。冲突会导致变量的值被意外覆盖，从而发生一些意想不到的事情</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params">a</span>) </span>&#123;</span><br><span class="line">        i = <span class="number">3</span>; <span class="comment">// 修改i的值</span></span><br><span class="line">        <span class="built_in">console</span>.log(a + i);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">        bar(i * <span class="number">2</span>); <span class="comment">// 无限循环</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="函数声明和函数表达式"><a href="#函数声明和函数表达式" class="headerlink" title="函数声明和函数表达式"></a>函数声明和函数表达式</h3><ul>
+<li>怎么区分函数声明和函数表达式<ul>
+<li>最简单的办法就是看function关键字出现的位置(整个声明中的位置)，如果function是声明中的第一个词，那么就是函数声明，否则就是函数表达式。</li>
+</ul>
+</li>
+<li>关于函数声明和函数表达式的不同<ul>
+<li>函数声明是绑定在声明的时候所处的作用域中，可以直接在其作用域内调用，<strong>函数表达式被绑定在函数表达式自身的函数中而不是所在作用域</strong>。</li>
+<li>(function baz() {…})作为函数表达式意味着foo只能在..所代表的位置中被访问，外部作用域内不行，baz变量名被隐藏在自身中意味着不会非必要地污染外部作用域。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 函数声明: 整个作用域内都可以调用</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line">foo() <span class="comment">// 可以</span></span><br><span class="line"><span class="comment">// 函数表达式：只能在函数内部可以调用</span></span><br><span class="line">(<span class="function"><span class="keyword">function</span> <span class="title">baz</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;)()</span><br><span class="line">bar() <span class="comment">// 报错</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 函数表达式：bro只能在自己的函数作用域内被调用</span></span><br><span class="line"><span class="keyword">var</span> bar = <span class="function"><span class="keyword">function</span> <span class="title">bro</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'111'</span>)</span><br><span class="line">    bro();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bar(); <span class="comment">// 可以</span></span><br><span class="line">bro(); <span class="comment">// 报错</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="具名函数和匿名函数"><a href="#具名函数和匿名函数" class="headerlink" title="具名函数和匿名函数"></a>具名函数和匿名函数</h3><ul>
+<li><p>具名函数：有名称的函数…</p>
+</li>
+<li><p>匿名函数：没有名称的函数…(匿名表达式都可以匿名的，而函数声明则不可以省略函数名)</p>
+</li>
+<li><p>匿名函数需要注意的几个缺点：</p>
+<ul>
+<li>匿名函数在栈追踪中不会显示出有意义的函数名，使得调试很困难。</li>
+<li>如果没有函数名，当函数需要引用自身时会非常麻烦，可以使用过期的arguments.callee引用。另一个函数需要引用自身的例子，是在事件触发后事件监听器需要解绑自身。</li>
+<li>匿名函数省略了对代码可读性/可理解性最重要的函数名。</li>
+</ul>
+</li>
+<li><p>给函数表达式指定一个函数名可以有效解决以上的问题~</p>
+</li>
+</ul>
+<h3 id="立即执行函数表达式（IIFE）"><a href="#立即执行函数表达式（IIFE）" class="headerlink" title="立即执行函数表达式（IIFE）"></a>立即执行函数表达式（IIFE）</h3><ul>
+<li>立即执行函数的两种形式</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 第一种形式</span></span><br><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;());</span><br><span class="line"></span><br><span class="line"><span class="comment">// 第二种形式</span></span><br><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 两种形式用哪种都可以，除了写的不同，其余都是一样的</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>怎么把外部的参数传递到立即执行函数的内部</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="number">3</span>;</span><br><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params">globle</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> a = <span class="number">2</span>;</span><br><span class="line">    <span class="built_in">console</span>.log(a) <span class="comment">// 2</span></span><br><span class="line">    <span class="built_in">console</span>.log(globle.a) <span class="comment">// 3</span></span><br><span class="line">&#125;)(<span class="built_in">window</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>利用IIFE倒置代码的运行顺序</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var a &#x3D; 3;</span><br><span class="line">(function IIFE(def) &#123;</span><br><span class="line">    def(window);</span><br><span class="line">    console.log(4);</span><br><span class="line">&#125;)(function def(global) &#123;</span><br><span class="line">    var a &#x3D; 2;</span><br><span class="line">    console.log(a); &#x2F;&#x2F; 2</span><br><span class="line">    console.log(global.a) &#x2F;&#x2F; 3</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 打印顺序：234</span><br></pre></td></tr></table></figure>
+
+<h3 id="块级作用域"><a href="#块级作用域" class="headerlink" title="块级作用域"></a>块级作用域</h3><h4 id="with"><a href="#with" class="headerlink" title="with"></a>with</h4><ul>
+<li>用with从对象创建出的作用域仅在with声明中而非外部作用域中有效</li>
+</ul>
+<h4 id="try-catch"><a href="#try-catch" class="headerlink" title="try/catch"></a>try/catch</h4><ul>
+<li>在ES3规范中规定try/catch的catch部分会创建一个块作用域，其中声明的变量仅在catch内部有效</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="literal">undefined</span>(); <span class="comment">// 执行一些错误的代码</span></span><br><span class="line">&#125; <span class="keyword">catch</span> (err) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(err); <span class="comment">//打印错误的信息： ReferenceError: undefined is not defined</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(err); <span class="comment">//未声明变量： Uncaught ReferenceError: err is not defined</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="let-const"><a href="#let-const" class="headerlink" title="let/const"></a>let/const</h4><ul>
+<li>ES6中新增的关键字，两种声明变量的方式</li>
+<li>与var不同的时，let/const关键字可以将变量绑定在所在的任何作用域中，一般是{…}内部，也就是说，let/const为其声明的变量隐式地劫持了所在的块作用域。</li>
+<li>let与const的不同是，const定义的是常量，一经赋值，就无法修改，const需要注意的两点，一是const必须要声明时赋值，二是const声明对象时，不可修改的部分是对象的引用，而不是对象内部定义的其他相关变量或者函数。也就是在用const定义对象之后，仍然后可以修改对象中的属性和方法。</li>
+<li>为变量显式声明块作用域，在引擎垃圾回收时，对于已经用过的，没有产生闭包的变量，会进行垃圾回收，从而释放空间。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">process</span>(<span class="params">data</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// js引擎对下面这段代码执行完毕之后，进行垃圾回收</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">let</span> someRealData = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>];</span><br><span class="line"></span><br><span class="line">    process(someRealData);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">btn.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> <span class="title">click</span>(<span class="params">evt</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'btn click'</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="let用于for循环解决的问题"><a href="#let用于for循环解决的问题" class="headerlink" title="let用于for循环解决的问题"></a>let用于for循环解决的问题</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(i); <span class="comment">// 10</span></span><br><span class="line">    &#125;, <span class="number">0</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(i) <span class="comment">// 10</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; <span class="number">10</span>; j++) &#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(j); <span class="comment">// 0,1,2,...,9</span></span><br><span class="line">    &#125;, j)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(j); <span class="comment">// ReferenceError: j is not defined</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>let在每次循环时，都会隐式的生成一个新的块作用域，包含let每次所声明的变量(let = 0; let = 1; let = 2; …)以及其余的代码。</li>
+<li>谈一下用var循环为什么会带来这种问题，首先var i = 0; 会把i放到全局作用域中，然后执行代码，在碰到定时器函数，把函数扔到宏队列等待js主线程的代码执行完毕再去执行宏队列中的代码，当for循环结束时，此时的i=10；然后执行存放在宏队列中的定时器，定时器函数所在的作用域中没有i变量，通过作用域链查找，查找的全局作用域中的i=10；于是每次打印都会打印10。而let不同的是，定时器中的函数在寻找i变量时，会找到上层let所隐式创建的块作用域，在这个作用域的i时let i；每次声明时所赋值的i变量。</li>
+<li>也可以用立即执行函数传参的方式解决上述的问题，其思想和let差不多，都是创建作用域，把值放入当前的作用域。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Js%E5%9F%BA%E7%A1%80/" rel="tag"># Js基础</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/18/Js%E5%9F%BA%E7%A1%80/2.Js%E5%9F%BA%E7%A1%80-%E5%AF%B9%E8%AF%8D%E6%B3%95%E4%BD%9C%E7%94%A8%E5%9F%9F%E7%9A%84%E7%90%86%E8%A7%A3/" rel="next" title="Js基础-对词法作用域的理解（eval和with剖析）">
+                <i class="fa fa-chevron-left"></i> Js基础-对词法作用域的理解（eval和with剖析）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">终身学习</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives%7C%7Carchive">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/MaFeixiang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:mafeixiang2019@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#心得"><span class="nav-number">1.</span> <span class="nav-text">心得</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是函数（块）作用域"><span class="nav-number">1.1.</span> <span class="nav-text">什么是函数（块）作用域</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数作用域的几个特点"><span class="nav-number">2.</span> <span class="nav-text">函数作用域的几个特点</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#隐藏内部实现"><span class="nav-number">2.1.</span> <span class="nav-text">隐藏内部实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#规避冲突"><span class="nav-number">2.2.</span> <span class="nav-text">规避冲突</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数声明和函数表达式"><span class="nav-number">3.</span> <span class="nav-text">函数声明和函数表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具名函数和匿名函数"><span class="nav-number">4.</span> <span class="nav-text">具名函数和匿名函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#立即执行函数表达式（IIFE）"><span class="nav-number">5.</span> <span class="nav-text">立即执行函数表达式（IIFE）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#块级作用域"><span class="nav-number">6.</span> <span class="nav-text">块级作用域</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#with"><span class="nav-number">6.1.</span> <span class="nav-text">with</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#try-catch"><span class="nav-number">6.2.</span> <span class="nav-text">try&#x2F;catch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#let-const"><span class="nav-number">6.3.</span> <span class="nav-text">let&#x2F;const</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#let用于for循环解决的问题"><span class="nav-number">6.4.</span> <span class="nav-text">let用于for循环解决的问题</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谦修</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'fx26KlNbl1qvCLRUNIufnbJu-gzGzoHsz',
+        appKey: 'bpGROAfkO1xgWeppfKq4vjwG',
+        placeholder: '欢迎交流',
+        avatar:'robohash',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
