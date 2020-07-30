@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Js基础," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="forEach：增强版for循环 Array.prototype.forEach(callbackfn(item, index, self), thisArg)   参数解释: callbackfn: 回调函数，item: 数组中的元素，index: 元素的索引，self: 数组本身。 thisArg: callbackfn中this的指向，不填的话this指向undefined。   写个例子">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ES5中对数组的扩展方法(手撕实现)">
+<meta property="og:url" content="http://yoursite.com/2020/07/19/Js%E5%9F%BA%E7%A1%80/5.js%E5%9F%BA%E7%A1%80-es5%E4%B8%AD%E6%95%B0%E7%BB%84%E7%9A%84%E6%89%A9%E5%B1%95(%E6%96%B9%E6%B3%95%E7%9A%84%E5%AE%9E%E7%8E%B0)/index.html">
+<meta property="og:site_name" content="谦修">
+<meta property="og:description" content="forEach：增强版for循环 Array.prototype.forEach(callbackfn(item, index, self), thisArg)   参数解释: callbackfn: 回调函数，item: 数组中的元素，index: 元素的索引，self: 数组本身。 thisArg: callbackfn中this的指向，不填的话this指向undefined。   写个例子">
+<meta property="article:published_time" content="2020-07-19T13:56:00.000Z">
+<meta property="article:modified_time" content="2020-07-30T10:31:40.880Z">
+<meta property="article:author" content="终身学习">
+<meta property="article:tag" content="Js基础">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/07/19/Js基础/5.js基础-es5中数组的扩展(方法的实现)/"/>
+
+
+
+
+
+  <title>ES5中对数组的扩展方法(手撕实现) | 谦修</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">谦修</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">宇宙山河浪漫，人间点滴温暖，都值得我前行</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/19/Js%E5%9F%BA%E7%A1%80/5.js%E5%9F%BA%E7%A1%80-es5%E4%B8%AD%E6%95%B0%E7%BB%84%E7%9A%84%E6%89%A9%E5%B1%95(%E6%96%B9%E6%B3%95%E7%9A%84%E5%AE%9E%E7%8E%B0)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="终身学习">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="谦修">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">ES5中对数组的扩展方法(手撕实现)</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-19T21:56:00+08:00">
+                2020-07-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Js%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index">
+                    <span itemprop="name">Js基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/07/19/Js%E5%9F%BA%E7%A1%80/5.js%E5%9F%BA%E7%A1%80-es5%E4%B8%AD%E6%95%B0%E7%BB%84%E7%9A%84%E6%89%A9%E5%B1%95(%E6%96%B9%E6%B3%95%E7%9A%84%E5%AE%9E%E7%8E%B0)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/07/19/Js%E5%9F%BA%E7%A1%80/5.js%E5%9F%BA%E7%A1%80-es5%E4%B8%AD%E6%95%B0%E7%BB%84%E7%9A%84%E6%89%A9%E5%B1%95(%E6%96%B9%E6%B3%95%E7%9A%84%E5%AE%9E%E7%8E%B0)/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="forEach：增强版for循环"><a href="#forEach：增强版for循环" class="headerlink" title="forEach：增强版for循环"></a>forEach：增强版for循环</h3><blockquote>
+<p>Array.prototype.forEach(callbackfn(item, index, self), thisArg)</p>
+</blockquote>
+<ul>
+<li>参数解释:<ul>
+<li>callbackfn: 回调函数，item: 数组中的元素，index: 元素的索引，self: 数组本身。</li>
+<li>thisArg: callbackfn中this的指向，不填的话this指向undefined。</li>
+</ul>
+</li>
+<li>写个例子</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> arr = [<span class="string">'one'</span>, <span class="string">'two'</span>, <span class="string">'three'</span>, <span class="string">'four'</span>];</span></span><br><span class="line"><span class="actionscript">    arr.forEach(<span class="function"><span class="keyword">function</span> <span class="params">(item, index, self)</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">        <span class="comment">// 'one' 0 ['one', 'two', ...]</span></span></span><br><span class="line"><span class="actionscript">        <span class="comment">// 'two' 1 ['one', 'two', ...]</span></span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(item, index, self);</span></span><br><span class="line">        </span><br><span class="line"><span class="actionscript">        <span class="comment">// this指向document.getElementsByTagName('li')</span></span></span><br><span class="line"><span class="actionscript">        <span class="keyword">this</span>[index].innerHTML = item;</span></span><br><span class="line"><span class="javascript">    &#125;, <span class="built_in">document</span>.getElementsByTagName(<span class="string">'li'</span>))</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>实现myForEach</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">Array</span>.prototype.myForEach = <span class="function"><span class="keyword">function</span> (<span class="params">func</span>) </span>&#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">var</span> arr = <span class="keyword">this</span>; <span class="comment">// 隐式绑定 -&gt; 绑定的是那个上下文对象（调用方法的数组）</span></span></span><br><span class="line"><span class="actionscript">        <span class="keyword">var</span> len = <span class="keyword">this</span>.length; <span class="comment">// 数组的长度 -&gt; 用于循环</span></span></span><br><span class="line"><span class="javascript">        <span class="keyword">var</span> param2 = <span class="built_in">arguments</span>[<span class="number">1</span>] || <span class="literal">undefined</span>; <span class="comment">// 获取myForEach第二参数，不存在指向undefined</span></span></span><br><span class="line">        </span><br><span class="line"><span class="actionscript">        <span class="comment">// 用for循环来执行</span></span></span><br><span class="line"><span class="actionscript">        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span></span><br><span class="line"><span class="actionscript">            <span class="comment">// 回调函数:func</span></span></span><br><span class="line"><span class="actionscript">            <span class="comment">// apply:显示绑定this指定的对象</span></span></span><br><span class="line"><span class="actionscript">            <span class="comment">// param2: 传入的this，如果没有默认undefined</span></span></span><br><span class="line"><span class="actionscript">            <span class="comment">// 传参：item: arr[i], index: i, self: arr</span></span></span><br><span class="line">            func.apply(param2, [arr[i], i, arr])</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> arr = [<span class="string">'one'</span>, <span class="string">'two'</span>, <span class="string">'three'</span>, <span class="string">'four'</span>];</span></span><br><span class="line"></span><br><span class="line"><span class="actionscript">    arr.myForEach(<span class="function"><span class="keyword">function</span> <span class="params">(item, index, self)</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">        <span class="comment">// 'one' 0 ['one', 'two', ...]</span></span></span><br><span class="line"><span class="actionscript">        <span class="comment">// 'two' 1 ['one', 'two', ...]</span></span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(item, index, self);</span></span><br><span class="line"></span><br><span class="line"><span class="actionscript">        <span class="keyword">this</span>[index].innerHTML = item;</span></span><br><span class="line"><span class="javascript">    &#125;, <span class="built_in">document</span>.getElementsByTagName(<span class="string">'li'</span>))</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="filter-过滤"><a href="#filter-过滤" class="headerlink" title="filter: 过滤"></a>filter: 过滤</h3><blockquote>
+<p>Array.prototype.filter(callbackfn(item, index, self), thisArg)</p>
+</blockquote>
+<ul>
+<li>参数解释:<ul>
+<li>callbackfn: 回调函数，item: 数组中的元素，index: 元素的索引，self: 数组本身。</li>
+<li>thisArg: callbackfn中this的指向，不填的话this指向undefined。</li>
+</ul>
+</li>
+<li>返回return为true的item：会返回一个新数组</li>
+<li>写个例子</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> personArr = [</span></span><br><span class="line"><span class="actionscript">        &#123;name: <span class="string">'张三'</span>, sex: <span class="string">'m'</span>&#125;,</span></span><br><span class="line"><span class="actionscript">        &#123;name: <span class="string">'李四'</span>, sex: <span class="string">'m'</span>&#125;,</span></span><br><span class="line"><span class="actionscript">        &#123;name: <span class="string">'刘娜'</span>, sex: <span class="string">'f'</span>&#125;,</span></span><br><span class="line"><span class="actionscript">        &#123;name: <span class="string">'李婷'</span>, sex: <span class="string">'f'</span>&#125;</span></span><br><span class="line">        ];</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> newArray = personArr.filter(<span class="function"><span class="keyword">function</span>(<span class="params">item, index, self</span>) </span>&#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> item.sex == <span class="string">'m'</span>; <span class="comment">// 返回true对应的item</span></span></span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(newArray); <span class="comment">// [&#123;name: '张三', sex: 'm'&#125;, &#123;name: '李四', sex: 'm'&#125;]</span></span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>实现myFilter</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">Array</span>.prototype.myFilter = <span class="function"><span class="keyword">function</span> (<span class="params">func</span>) </span>&#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">var</span> arr = <span class="keyword">this</span>; <span class="comment">// 同上</span></span></span><br><span class="line"><span class="actionscript">        <span class="keyword">var</span> len = arr.length; <span class="comment">// 同上</span></span></span><br><span class="line"><span class="javascript">        <span class="keyword">var</span> param2 = <span class="built_in">arguments</span>[<span class="number">1</span>] || <span class="literal">undefined</span>; <span class="comment">// 同上</span></span></span><br><span class="line"><span class="actionscript">        <span class="keyword">var</span> newArr = []; <span class="comment">// 用于返回的新的数组</span></span></span><br><span class="line"></span><br><span class="line"><span class="actionscript">        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span></span><br><span class="line"><span class="actionscript">            <span class="comment">// 同上</span></span></span><br><span class="line"><span class="actionscript">            <span class="comment">// 判断回调函数的返回值是否为真 =&gt; 为真返回对应item，为假不做处理</span></span></span><br><span class="line"><span class="actionscript">            func.apply(param2, [arr[i], i, arr]) ? newArr.push(arr[i]) : <span class="string">''</span>; </span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> newArr;</span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> personArr = [</span></span><br><span class="line"><span class="actionscript">        &#123;name: <span class="string">'张三'</span>, sex: <span class="string">'m'</span>&#125;,</span></span><br><span class="line"><span class="actionscript">        &#123;name: <span class="string">'李四'</span>, sex: <span class="string">'m'</span>&#125;,</span></span><br><span class="line"><span class="actionscript">        &#123;name: <span class="string">'刘娜'</span>, sex: <span class="string">'f'</span>&#125;,</span></span><br><span class="line"><span class="actionscript">        &#123;name: <span class="string">'李婷'</span>, sex: <span class="string">'f'</span>&#125;</span></span><br><span class="line">        ];</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> newArray = personArr.myFilter(<span class="function"><span class="keyword">function</span>(<span class="params">item, index, self</span>) </span>&#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> item.sex == <span class="string">'m'</span>;</span></span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(newArray); <span class="comment">// [&#123;name: '张三', sex: 'm'&#125;, &#123;name: '李四', sex: 'm'&#125;]</span></span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="map-映射"><a href="#map-映射" class="headerlink" title="map: 映射"></a>map: 映射</h3><blockquote>
+<p>Array.prototype.map(callbackfn(item, index, self), thisArg)</p>
+</blockquote>
+<ul>
+<li>参数解释:<ul>
+<li>callbackfn: 回调函数，item: 数组中的元素，index: 元素的索引，self: 数组本身。</li>
+<li>thisArg: callbackfn中this的指向，不填的话this指向undefined。</li>
+</ul>
+</li>
+<li>对数据进行集中化处理：会返回一个新数组</li>
+<li>写个例子</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> personArr = [</span></span><br><span class="line"><span class="actionscript">            &#123; name: <span class="string">'张三'</span>, sex: <span class="string">'m'</span> &#125;,</span></span><br><span class="line"><span class="actionscript">            &#123; name: <span class="string">'李四'</span>, sex: <span class="string">'m'</span> &#125;,</span></span><br><span class="line"><span class="actionscript">            &#123; name: <span class="string">'刘娜'</span>, sex: <span class="string">'f'</span> &#125;,</span></span><br><span class="line"><span class="actionscript">            &#123; name: <span class="string">'李婷'</span>, sex: <span class="string">'f'</span> &#125;</span></span><br><span class="line">        ];</span><br><span class="line"></span><br><span class="line"><span class="javascript">        <span class="keyword">let</span> newArray = personArr.map(<span class="function"><span class="keyword">function</span> (<span class="params">item, index, self</span>) </span>&#123;</span></span><br><span class="line"><span class="actionscript">            <span class="comment">//让item.name加上十，显示在li中</span></span></span><br><span class="line"><span class="actionscript">            <span class="keyword">this</span>[index].innerHTML = item.name + <span class="number">10</span>;</span></span><br><span class="line">            </span><br><span class="line"><span class="actionscript">            <span class="keyword">return</span> item.name + <span class="number">10</span>;</span></span><br><span class="line"><span class="javascript">        &#125;, <span class="built_in">document</span>.getElementsByTagName(<span class="string">"li"</span>))</span></span><br><span class="line"></span><br><span class="line"><span class="actionscript">        <span class="comment">// ['张三10', '李四10', ... ]</span></span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(newArray); </span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>实现myMap</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">       <span class="built_in">Array</span>.prototype.myMap = <span class="function"><span class="keyword">function</span> (<span class="params">func</span>) </span>&#123;</span></span><br><span class="line"><span class="actionscript">           <span class="keyword">var</span> arr = <span class="keyword">this</span>; <span class="comment">// 同上</span></span></span><br><span class="line"><span class="actionscript">           <span class="keyword">var</span> len = arr.length; <span class="comment">// 同上</span></span></span><br><span class="line"><span class="javascript">           <span class="keyword">var</span> param2 = <span class="built_in">arguments</span>[<span class="number">1</span>] || <span class="literal">undefined</span>; <span class="comment">// 同上</span></span></span><br><span class="line"><span class="actionscript">           <span class="keyword">var</span> newArr = []; <span class="comment">// 用于返回的新的数组</span></span></span><br><span class="line"></span><br><span class="line"><span class="actionscript">           <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span></span><br><span class="line"><span class="actionscript">               <span class="comment">// 同上</span></span></span><br><span class="line"><span class="actionscript">               <span class="comment">// 拿到回调函数中的返回值，放到返回的新的数组中。</span></span></span><br><span class="line">               newArr.push( func.apply(param2, [arr[i], i, arr]) );</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line"><span class="actionscript">           <span class="keyword">return</span> newArr;</span></span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line"><span class="javascript">       <span class="keyword">let</span> personArr = [</span></span><br><span class="line"><span class="actionscript">           &#123; name: <span class="string">'张三'</span>, sex: <span class="string">'m'</span> &#125;,</span></span><br><span class="line"><span class="actionscript">           &#123; name: <span class="string">'李四'</span>, sex: <span class="string">'m'</span> &#125;,</span></span><br><span class="line"><span class="actionscript">           &#123; name: <span class="string">'刘娜'</span>, sex: <span class="string">'f'</span> &#125;,</span></span><br><span class="line"><span class="actionscript">           &#123; name: <span class="string">'李婷'</span>, sex: <span class="string">'f'</span> &#125;</span></span><br><span class="line">       ];</span><br><span class="line"></span><br><span class="line"><span class="javascript">       <span class="keyword">let</span> newArray = personArr.myMap(<span class="function"><span class="keyword">function</span> (<span class="params">item, index, self</span>) </span>&#123;</span></span><br><span class="line"><span class="actionscript">           <span class="comment">//让item.name加上十，显示在li中</span></span></span><br><span class="line"><span class="actionscript">           <span class="keyword">this</span>[index].innerHTML = item.name + <span class="number">10</span>;</span></span><br><span class="line">           </span><br><span class="line"><span class="actionscript">           <span class="keyword">return</span> item.name + <span class="number">10</span>;</span></span><br><span class="line"><span class="javascript">       &#125;, <span class="built_in">document</span>.getElementsByTagName(<span class="string">"li"</span>))</span></span><br><span class="line"></span><br><span class="line"><span class="actionscript">       <span class="comment">// ['张三10', '李四10', ... ]</span></span></span><br><span class="line"><span class="javascript">       <span class="built_in">console</span>.log(newArray); </span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="every-some-排查"><a href="#every-some-排查" class="headerlink" title="every,some: 排查"></a>every,some: 排查</h3><blockquote>
+<p>Array.prototype.every(callbackfn(item, index, self), thisArg)</p>
+<p>Array.prototype.some(callbackfn(item, index,self), thisArg)</p>
+</blockquote>
+<ul>
+<li><p>参数解释:</p>
+<ul>
+<li>callbackfn: 回调函数，item: 数组中的元素，index: 元素的索引，self: 数组本身。</li>
+<li>thisArg: callbackfn中this的指向，不填的话this指向undefined</li>
+</ul>
+</li>
+<li><p>判断是否都满足规则，还是部分满足规则：</p>
+<ul>
+<li>every: 如果有一个返回false, 则返回false</li>
+<li>some: 如果有一个返回true, 则返回true</li>
+</ul>
+</li>
+<li><p>写个例子</p>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript"><span class="keyword">let</span> personArr = [</span></span><br><span class="line"><span class="actionscript">            &#123; name: <span class="string">'张三'</span>, sex: <span class="string">'m'</span>, flag: <span class="string">'1'</span>&#125;,</span></span><br><span class="line"><span class="actionscript">            &#123; name: <span class="string">'李四'</span>, sex: <span class="string">'m'</span>, flag: <span class="string">'1'</span>&#125;,</span></span><br><span class="line"><span class="actionscript">            &#123; name: <span class="string">'刘娜'</span>, sex: <span class="string">'f'</span>, flag: <span class="string">'1'</span>&#125;,</span></span><br><span class="line"><span class="actionscript">            &#123; name: <span class="string">'李婷'</span>, sex: <span class="string">'f'</span>,flag: <span class="string">'1'</span>&#125;</span></span><br><span class="line">        ];</span><br><span class="line"></span><br><span class="line"><span class="javascript"><span class="keyword">let</span> newArr1 = personArr.every(<span class="function"><span class="keyword">function</span> (<span class="params">item, index, self</span>) </span>&#123;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">return</span> item.name == <span class="string">'张三'</span>;</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="javascript"><span class="keyword">let</span> newArr2 = personArr.some(<span class="function"><span class="keyword">function</span> (<span class="params">item, index, self</span>) </span>&#123;</span></span><br><span class="line"><span class="actionscript">    <span class="keyword">return</span> item.name == <span class="string">'张三'</span></span></span><br><span class="line">&#125;)</span><br><span class="line"><span class="javascript"><span class="built_in">console</span>.log(newArr1, newArr2) <span class="comment">//false true </span></span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>实现myEvery, mySome</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">    <span class="comment">// 如果有一个为假，则返回假</span></span></span><br><span class="line"><span class="javascript">    <span class="built_in">Array</span>.prototype.myEvery = <span class="function"><span class="keyword">function</span> (<span class="params">func</span>) </span>&#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">var</span> arr = <span class="keyword">this</span>;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">var</span> len = <span class="keyword">this</span>.length;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">var</span> param2 = <span class="built_in">arguments</span>[<span class="number">1</span>] || <span class="literal">undefined</span>;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">var</span> flag = <span class="literal">true</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="actionscript">        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span></span><br><span class="line"></span><br><span class="line"><span class="actionscript">            <span class="comment">// 判断回调函数的返回值, 如果有一个为假，则返回false; </span></span></span><br><span class="line">            if ( !func.apply(param2, [arr[i], i, arr]) ) &#123;</span><br><span class="line"><span class="actionscript">                flag = <span class="literal">false</span>;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">return</span> flag;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> flag;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="comment">// 如果有一个为真，则返回真</span></span></span><br><span class="line"><span class="javascript">    <span class="built_in">Array</span>.prototype.mySome = <span class="function"><span class="keyword">function</span> (<span class="params">func</span>) </span>&#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">var</span> arr = <span class="keyword">this</span>;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">var</span> len = <span class="keyword">this</span>.length;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">var</span> param2 = <span class="built_in">arguments</span>[<span class="number">1</span>] || <span class="literal">undefined</span>;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">var</span> flag = <span class="literal">false</span>;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span></span><br><span class="line"></span><br><span class="line"><span class="actionscript">            <span class="comment">// 判断回调函数的返回值, 如果有一个为真，则返回true; </span></span></span><br><span class="line">            if ( func.apply(param2, [arr[i], i, arr]) ) &#123;</span><br><span class="line"><span class="actionscript">                flag = <span class="literal">true</span>;</span></span><br><span class="line"><span class="actionscript">                <span class="keyword">return</span> flag;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> flag;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> personArr = [</span></span><br><span class="line"><span class="actionscript">        &#123; name: <span class="string">'张三'</span>, sex: <span class="string">'m'</span>, flag: <span class="string">'1'</span>&#125;,</span></span><br><span class="line"><span class="actionscript">        &#123; name: <span class="string">'李四'</span>, sex: <span class="string">'m'</span>, flag: <span class="string">'1'</span>&#125;,</span></span><br><span class="line"><span class="actionscript">        &#123; name: <span class="string">'刘娜'</span>, sex: <span class="string">'f'</span>, flag: <span class="string">'1'</span>&#125;,</span></span><br><span class="line"><span class="actionscript">        &#123; name: <span class="string">'李婷'</span>, sex: <span class="string">'f'</span>,flag: <span class="string">'1'</span>&#125;</span></span><br><span class="line">    ];</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> newArr1 = personArr.myEvery(<span class="function"><span class="keyword">function</span> (<span class="params">item, index, self</span>) </span>&#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> item.name == <span class="string">'张三'</span>;</span></span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> newArr2 = personArr.mySome(<span class="function"><span class="keyword">function</span> (<span class="params">item, index, self</span>) </span>&#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> item.name == <span class="string">'张三'</span></span></span><br><span class="line">    &#125;)</span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(newArr1, newArr2) <span class="comment">//false true </span></span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="reduce-reduceRight-累加器"><a href="#reduce-reduceRight-累加器" class="headerlink" title="reduce, reduceRight: 累加器"></a>reduce, reduceRight: 累加器</h3><blockquote>
+<p>Array.prototype.reduce(callbackfn(pervValue, curValue, index, self), initialValue)</p>
+<p>Array.prototype.some(callbackfn(pervValue, curValue, index, self), initialValue)</p>
+</blockquote>
+<ul>
+<li><p>参数解释:</p>
+<ul>
+<li>callbackfn: 回调函数，pervValue: 回调函数上一次返回的值(初始值是initialValue里面的值)；curValue: 相当于每次回调函数中的item；index: item对应的索引；self: 数组本身</li>
+<li>initialValue: 为pervValue赋初值</li>
+</ul>
+</li>
+<li><p>判断是否都满足规则，还是部分满足规则：</p>
+<ul>
+<li>reduce: 从左向右累加</li>
+<li>reduceRight: 从右向左累加</li>
+</ul>
+</li>
+<li><p>写个例子</p>
+</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> arr =  [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>, <span class="string">'e'</span>];</span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> initialValue = <span class="number">0</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> newStr1 = arr.reduce(<span class="function"><span class="keyword">function</span> (<span class="params">pervValue, curValue, index, self</span>) </span>&#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> pervValue + curValue;</span></span><br><span class="line">    &#125;, initialValue)</span><br><span class="line">    </span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> newStr2 = arr.reduceRight(<span class="function"><span class="keyword">function</span> (<span class="params">pervValue, curValue, index, self</span>) </span>&#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> pervValue + curValue;</span></span><br><span class="line">    &#125;, initialValue)</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(newStr1, newStr2); <span class="comment">// 0abcde  0edcba</span></span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>实现myReduce和myReduceRight</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="comment">// 扩展功能，可以添加this =&gt; 有 - 指向第三个参数； 没有 - undefined</span></span></span><br><span class="line"><span class="javascript">    <span class="built_in">Array</span>.prototype.myReduce = <span class="function"><span class="keyword">function</span> (<span class="params">func, initialValue</span>) </span>&#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">var</span> arr = <span class="keyword">this</span>;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">var</span> len = <span class="keyword">this</span>.length;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">var</span> param2 = <span class="built_in">arguments</span>[<span class="number">2</span>] || <span class="literal">undefined</span>; <span class="comment">// 运行时，指向的this</span></span></span><br><span class="line"></span><br><span class="line"><span class="actionscript">        <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span></span><br><span class="line"></span><br><span class="line"><span class="actionscript">            <span class="comment">// 第一次运行：pervValue = initialValue，初始化赋值</span></span></span><br><span class="line"><span class="actionscript">            <span class="comment">// 以后的每次运行：pervValue = initialValue; (initialValue 中存放的是回调函数每次的返回值)</span></span></span><br><span class="line"><span class="actionscript">            <span class="comment">// 把每次的回调函数的返回值重新赋值给initalValue</span></span></span><br><span class="line">            initialValue = func.apply(param2, [initialValue, arr[i], i, arr]);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"><span class="actionscript">        <span class="comment">// 返回最后的返回值</span></span></span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> initialValue;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="actionscript">    <span class="comment">// 扩展功能，可以添加this =&gt; 有 - 指向第三个参数； 没有 - undefined</span></span></span><br><span class="line"><span class="javascript">    <span class="built_in">Array</span>.prototype.myReduceRight = <span class="function"><span class="keyword">function</span> (<span class="params">func, initialValue</span>) </span>&#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">var</span> arr = <span class="keyword">this</span>;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">var</span> len = <span class="keyword">this</span>.length;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">var</span> param2 = <span class="built_in">arguments</span>[<span class="number">2</span>] || <span class="literal">undefined</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="actionscript">        <span class="comment">// 第一次运行：pervValue = initialValue，初始化赋值</span></span></span><br><span class="line"><span class="actionscript">        <span class="comment">// 以后的每次运行：pervValue = initialValue; (initialValue 中存放的是回调函数每次的返回值)</span></span></span><br><span class="line"><span class="actionscript">        <span class="comment">// 把每次的回调函数的返回值重新赋值给initalValue</span></span></span><br><span class="line"><span class="actionscript">        <span class="keyword">for</span> (<span class="keyword">var</span> i = len - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span></span><br><span class="line">            initialValue = func.apply(param2, [initialValue, arr[i], i, arr]);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"><span class="actionscript">        <span class="comment">// 返回最后的返回值</span></span></span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> initialValue;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> arr = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>, <span class="string">'e'</span>];</span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> initialValue = <span class="number">0</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> newStr1 = arr.myReduce(<span class="function"><span class="keyword">function</span> (<span class="params">pervValue, curValue, index, self</span>) </span>&#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> pervValue + curValue;</span></span><br><span class="line">    &#125;, initialValue)</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> newStr2 = arr.myReduceRight(<span class="function"><span class="keyword">function</span> (<span class="params">pervValue, curValue, index, self</span>) </span>&#123;</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> pervValue + curValue;</span></span><br><span class="line">    &#125;, initialValue)</span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(newStr1, newStr2); <span class="comment">// 0abcde  0edcba</span></span></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="优雅地处理cookie信息"><a href="#优雅地处理cookie信息" class="headerlink" title="优雅地处理cookie信息"></a>优雅地处理cookie信息</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript"><span class="keyword">var</span> cookieStr = <span class="string">"BAIDUID=D65DF4022E0C38AAF1B4346D69BE39D7:FG1; BIDUPSID=D65DF4022E0C38AAF1B4346D69BE39D7; PSTM=1567864658; BD_UPN=12314753; BDUSS=JPZlpMZnhnc0VwSzVZZmJCb0k0T1YtLVdJfnJoLVZTSjF4aVZVcEVTWFpaOFZkRVFBQUFBJCQAAAAAAAAAAAEAAABF9o-oxM-358jrz9JhAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANnanV3Z2p1dej; BDORZ=B490B5EBF6F3CD402E515D22BCDA1598; BD_HOME=1; H_PS_PSSID=1461_21103_18559_29721_29568_29221; delPer=0; BD_CK_SAM=1; PSINO=1; COOKIE_SESSION=81759_0_8_7_4_5_0_1_8_3_0_0_0_0_0_0_1570804584_0_1570976916%7C9%236472_13_1568990992%7C4; BDSFRCVID=ZpusJeCCxG3jYbowCNdjqdmi-0CH6AQX2liC3J; H_BDCLCKID_SF=tbkD_C-MfIvhDRTvhCcjh-FSMgTBKI62aKDshtJa-hcqEpO9QTb8WtDe5PbwKPTD5Ij0sCJnWIQNVfP4h-rTDUTh-p52f60Dfn4O3J; H_PS_645EC=1749l%2FLqyeBp0aDhQvTDqO%2BJ1LCMP2QgXo9B9n4K1yd1eAJZ3oi6deolK%2Fw; BDSVRTM=127"</span>;</span></span><br><span class="line"><span class="actionscript">    <span class="function"><span class="keyword">function</span> <span class="title">parseCookie</span><span class="params">(str)</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">        <span class="comment">// 把字符串以分号分隔成数组</span></span></span><br><span class="line"><span class="actionscript">        <span class="keyword">var</span> arrCookie = str.split(<span class="string">";"</span>);</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">var</span> cookieObj = &#123;&#125;;</span></span><br><span class="line"><span class="actionscript">        arrCookie.reduce(<span class="function"><span class="keyword">function</span> <span class="params">(prevValue, curValue, index, self)</span> </span>&#123;</span></span><br><span class="line"><span class="actionscript">            <span class="comment">// 把字符串以=分割成数组</span></span></span><br><span class="line"><span class="actionscript">            <span class="keyword">var</span> curArr = curValue.split(<span class="string">"="</span>);</span></span><br><span class="line"><span class="actionscript">            <span class="comment">// 放入到对象中</span></span></span><br><span class="line">            prevValue[curArr[0]] = curArr[1];</span><br><span class="line"></span><br><span class="line"><span class="actionscript">            <span class="keyword">return</span> prevValue;</span></span><br><span class="line">        &#125;, cookieObj);</span><br><span class="line"></span><br><span class="line"><span class="actionscript">        <span class="keyword">return</span> cookieObj;</span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="actionscript">    <span class="keyword">var</span> cookieObj = parseCookie(cookieStr);</span></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.log(cookieObj);</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Js%E5%9F%BA%E7%A1%80/" rel="tag"># Js基础</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/18/Js%E5%9F%BA%E7%A1%80/2.Js%E5%9F%BA%E7%A1%80-%E5%AF%B9%E8%AF%8D%E6%B3%95%E4%BD%9C%E7%94%A8%E5%9F%9F%E7%9A%84%E7%90%86%E8%A7%A3/" rel="next" title="Js基础-对词法作用域的理解（eval和with剖析）">
+                <i class="fa fa-chevron-left"></i> Js基础-对词法作用域的理解（eval和with剖析）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/07/19/Js%E5%9F%BA%E7%A1%80/3.js%E5%9F%BA%E7%A1%80-%E5%AF%B9%E5%87%BD%E6%95%B0%E5%92%8C%E5%9D%97%E4%BD%9C%E7%94%A8%E5%9F%9F%E7%9A%84%E7%90%86%E8%A7%A3/" rel="prev" title="Ja基础-对函数（块）作用域的理解">
+                Ja基础-对函数（块）作用域的理解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">终身学习</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives%7C%7Carchive">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/MaFeixiang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:mafeixiang2019@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#forEach：增强版for循环"><span class="nav-number">1.</span> <span class="nav-text">forEach：增强版for循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#filter-过滤"><span class="nav-number">2.</span> <span class="nav-text">filter: 过滤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#map-映射"><span class="nav-number">3.</span> <span class="nav-text">map: 映射</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#every-some-排查"><span class="nav-number">4.</span> <span class="nav-text">every,some: 排查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reduce-reduceRight-累加器"><span class="nav-number">5.</span> <span class="nav-text">reduce, reduceRight: 累加器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优雅地处理cookie信息"><span class="nav-number">6.</span> <span class="nav-text">优雅地处理cookie信息</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谦修</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'fx26KlNbl1qvCLRUNIufnbJu-gzGzoHsz',
+        appKey: 'bpGROAfkO1xgWeppfKq4vjwG',
+        placeholder: '欢迎交流',
+        avatar:'robohash',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
