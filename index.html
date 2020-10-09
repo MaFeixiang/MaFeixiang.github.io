@@ -362,14 +362,16 @@
 
       
         
-          
-            <blockquote>
+          <blockquote>
 <p>Mixin模式：混入模式（浅克隆）</p>
 </blockquote>
-<h3 id="利用getOwnPropertyDescriptors-实现"><a href="#利用getOwnPropertyDescriptors-实现" class="headerlink" title="利用getOwnPropertyDescriptors()实现"></a>利用getOwnPropertyDescriptors()实现</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> mix = <span class="function">(<span class="params">object</span>) =&gt;</span> (&#123;</span><br><span class="line">    <span class="keyword">with</span>: <span class="function">(<span class="params">...mixins</span>) =&gt;</span> mixins.reduce(<span class="function">(<span class="params">c, mixin</span>) =&gt;</span> <span class="built_in">Object</span>.create( <span class="comment">// 循环复制操作mixins中的对象</span></span><br><span class="line">        c,</span><br><span class="line">        <span class="built_in">Object</span>.getOwnPropertyDescriptors(mixin)</span><br><span class="line">    ), object)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// test</span></span><br><span class="line"><span class="keyword">let</span> a = &#123; <span class="attr">a</span>: <span class="string">'1'</span>, <span class="attr">n</span>: <span class="string">'4'</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> b = &#123; <span class="attr">b</span>: <span class="string">'2'</span>, <span class="attr">n</span>: <span class="string">'5'</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> c = &#123; <span class="attr">c</span>: <span class="string">'3'</span>, <span class="attr">n</span>: <span class="string">'6'</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> d = mix(a).with(b, c);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> d) &#123; <span class="comment">// for in循环会读取原型上的属性</span></span><br><span class="line">    <span class="built_in">console</span>.log(key + <span class="string">':'</span> + d[key]); <span class="comment">// c:3 n:6 b:2 a:1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2020/07/27/Es6/%E5%AE%9E%E7%8E%B0Mixin(%E6%B7%B7%E5%85%A5)%E6%A8%A1%E5%BC%8F/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
