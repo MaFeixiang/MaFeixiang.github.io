@@ -79,14 +79,14 @@
 
 
 
-<meta name="description" content="Object.entries: 返回一个数组，成员是参数对象自身的（不含继承的）所有可遍历属性的键值对数组    Generator函数的版本123456&#x2F;&#x2F; Generator函数的版本function* entries(obj) &amp;#123;    for (let key of Object.keys(obj)) &amp;#123;        yield [key, obj[key]];">
+<meta name="description" content="Object.entries: 返回一个数组，成员是参数对象自身的（不含继承的）所有可遍历属性的键值对数组">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Es6-实现Object.entries">
 <meta property="og:url" content="http://yoursite.com/2020/07/24/Es6/%E5%AE%9E%E7%8E%B0Object.entries/index.html">
 <meta property="og:site_name" content="谦修">
-<meta property="og:description" content="Object.entries: 返回一个数组，成员是参数对象自身的（不含继承的）所有可遍历属性的键值对数组    Generator函数的版本123456&#x2F;&#x2F; Generator函数的版本function* entries(obj) &amp;#123;    for (let key of Object.keys(obj)) &amp;#123;        yield [key, obj[key]];">
+<meta property="og:description" content="Object.entries: 返回一个数组，成员是参数对象自身的（不含继承的）所有可遍历属性的键值对数组">
 <meta property="article:published_time" content="2020-07-24T12:59:00.000Z">
-<meta property="article:modified_time" content="2020-10-09T05:43:22.143Z">
+<meta property="article:modified_time" content="2020-10-09T05:49:27.085Z">
 <meta property="article:author" content="终身学习">
 <meta property="article:tag" content="Es6">
 <meta name="twitter:card" content="summary">
@@ -364,7 +364,7 @@
         <blockquote>
 <p>Object.entries: 返回一个数组，成员是参数对象自身的（不含继承的）所有可遍历属性的<strong>键值对数组</strong></p>
 </blockquote>
-<!-- -->
+<a id="more"></a>
 
 <h3 id="Generator函数的版本"><a href="#Generator函数的版本" class="headerlink" title="Generator函数的版本"></a>Generator函数的版本</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Generator函数的版本</span></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">entries</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">of</span> <span class="built_in">Object</span>.keys(obj)) &#123;</span><br><span class="line">        <span class="keyword">yield</span> [key, obj[key]];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
