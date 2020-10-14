@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Es6," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Promi    需要解决的问题  ES6异步处理的通用模型 Promise API详细梳理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Es6-对Promise的理解">
+<meta property="og:url" content="http://yoursite.com/2020/07/30/Es6/%E5%AF%B9Promise%E7%90%86%E8%A7%A3/index.html">
+<meta property="og:site_name" content="谦修">
+<meta property="og:description" content="Promi    需要解决的问题  ES6异步处理的通用模型 Promise API详细梳理">
+<meta property="article:published_time" content="2020-07-30T13:31:00.000Z">
+<meta property="article:modified_time" content="2020-10-14T08:53:54.521Z">
+<meta property="article:author" content="终身学习">
+<meta property="article:tag" content="Es6">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/07/30/Es6/对Promise理解/"/>
+
+
+
+
+
+  <title>Es6-对Promise的理解 | 谦修</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">谦修</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">宇宙山河浪漫，人间点滴温暖，都值得我前行</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/30/Es6/%E5%AF%B9Promise%E7%90%86%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="终身学习">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="谦修">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Es6-对Promise的理解</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-30T21:31:00+08:00">
+                2020-07-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Es6/" itemprop="url" rel="index">
+                    <span itemprop="name">Es6</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/07/30/Es6/%E5%AF%B9Promise%E7%90%86%E8%A7%A3/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/07/30/Es6/%E5%AF%B9Promise%E7%90%86%E8%A7%A3/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>Promi</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>需要解决的问题 </li>
+<li>ES6异步处理的通用模型</li>
+<li>Promise API详细梳理</li>
+</ul>
+</blockquote>
+<a id="more"></a>
+
+<h3 id="ES6之前异步处理的几个问题"><a href="#ES6之前异步处理的几个问题" class="headerlink" title="ES6之前异步处理的几个问题"></a>ES6之前异步处理的几个问题</h3><blockquote>
+<ol>
+<li>回调配合着嵌套会产生回调地狱问题，思路很不清晰，迭代会非常麻烦</li>
+<li>由于回调存在着依赖反装，在使用第三方提供的方法时，会产生信任问题</li>
+<li>当我们不写错误的回调函数时，会存在异常无法捕获</li>
+<li>导致性能更差，本来可以一起做的但是使用回调，导致多件事情顺序执行，用的时间更多</li>
+</ol>
+</blockquote>
+<h3 id="异步处理的通用模型"><a href="#异步处理的通用模型" class="headerlink" title="异步处理的通用模型"></a>异步处理的通用模型</h3><blockquote>
+<p>两个阶段 三种状态  不可逆 后续处理 </p>
+</blockquote>
+<blockquote>
+<ol>
+<li><p>ES6 将某一件可能发生异步操作的事情，分为两个阶段：<strong><em>\</em>unsettled**</strong> 和 <strong><em>\</em>settled**</strong></p>
+<ul>
+<li><p>unsettled： 未决阶段，表示事情还在进行前期的处理，并没有发生通向结果的那件事</p>
+</li>
+<li><p>settled：已决阶段，事情已经有了一个结果，不管这个结果是好是坏，整件事情无法逆转</p>
+</li>
+</ul>
+<p>事情总是从 未决阶段 逐步发展到 已决阶段的。并且，未决阶段拥有控制何时通向已决阶段的能力。</p>
+</li>
+<li><p>ES6将事情划分为三种状态： pending、resolved、rejected</p>
+<ul>
+<li><p>pending: 挂起，处于未决阶段，则表示这件事情还在挂起（最终的结果还没出来）</p>
+</li>
+<li><p>resolved：已处理，已决阶段的一种状态，表示整件事情已经出现结果，并是一个可以按照正常逻辑进行下去的结果</p>
+</li>
+<li><p>rejected：已拒绝，已决阶段的一种状态，表示整件事情已经出现结果，并是一个无法按照正常逻辑进行下去的结果，通常用于表示有一个错误</p>
+</li>
+<li><p>既然未决阶段有权力决定事情的走向，因此，未决阶段可以决定事情最终的状态！</p>
+</li>
+</ul>
+<p>我们将 把事情变为resolved状态的过程叫做：<strong><em>\</em>resolve**</strong>，推向该状态时，可能会传递一些数据</p>
+<p>我们将 把事情变为rejected状态的过程叫做：<strong><em>\</em>reject**</strong>，推向该状态时，同样可能会传递一些数据，通常为错误信息</p>
+<p><strong><em>\</em>始终记住，无论是阶段，还是状态，是不可逆的！**</strong></p>
+</li>
+<li><p>当事情达到已决阶段后，通常需要进行后续处理，不同的已决状态，决定了不同的后续处理。</p>
+<ul>
+<li><p>resolved状态：这是一个正常的已决状态，后续处理表示为 thenable</p>
+</li>
+<li><p>rejected状态：这是一个非正常的已决状态，后续处理表示为 catchable</p>
+</li>
+</ul>
+<p>后续处理可能有多个，因此会形成作业队列，这些后续处理会按照顺序，当状态到达后依次执行</p>
+</li>
+<li><p>整件事称之为Promise</p>
+</li>
+</ol>
+</blockquote>
+<h3 id="Promise-API详解"><a href="#Promise-API详解" class="headerlink" title="Promise API详解"></a>Promise API详解</h3><h4 id="1-创建Promise实例"><a href="#1-创建Promise实例" class="headerlink" title="1. 创建Promise实例"></a>1. 创建Promise实例</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> pro = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="comment">// 未决阶段的处理</span></span><br><span class="line">    <span class="comment">// 通过调用resolve函数将Promise推向已决阶段的resolved状态</span></span><br><span class="line">    <span class="comment">// 通过调用reject函数将Promise推向已决阶段的rejected状态</span></span><br><span class="line">    <span class="comment">// resolve和reject均可以传递最多一个参数，表示推向状态的数据</span></span><br><span class="line">&#125;)</span><br><span class="line">pro.then(<span class="function"><span class="params">data</span>=&gt;</span>&#123;</span><br><span class="line">    <span class="comment">//这是thenable函数，如果当前的Promise已经是resolved状态，该函数会立即执行</span></span><br><span class="line">    <span class="comment">//如果当前是未决阶段，则会加入到作业队列，等待到达resolved状态后执行</span></span><br><span class="line">    <span class="comment">//data为状态数据</span></span><br><span class="line">&#125;, err=&gt;&#123;</span><br><span class="line">    <span class="comment">//这是catchable函数，如果当前的Promise已经是rejected状态，该函数会立即执行</span></span><br><span class="line">    <span class="comment">//如果当前是未决阶段，则会加入到作业队列，等待到达rejected状态后执行</span></span><br><span class="line">    <span class="comment">//err为状态数据</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ol>
+<li>未决阶段的处理函数是同步的，会立即执行</li>
+<li>thenable和catchable函数是异步的，就算是立即执行，也会加入到事件队列中等待执行，并且，加入的队列是微队列</li>
+<li>pro.then可以只添加thenable函数，pro.catch可以单独添加catchable函数</li>
+<li>在未决阶段的处理函数中，如果发生未捕获的错误，会将状态推向rejected，并会被catchable捕获</li>
+<li>一旦状态推向了已决阶段，无法再对状态做任何更改</li>
+<li><strong>Promise并没有消除回调，只是让回调变得可控</strong></li>
+</ol>
+</blockquote>
+<h4 id="2-Promise的串联"><a href="#2-Promise的串联" class="headerlink" title="2. Promise的串联"></a>2. Promise的串联</h4><blockquote>
+<p>当后续的Promise需要用到之前的Promise的处理结果时 ，需要Promise的串联</p>
+<p>Promise对象中，无论是then方法还是catch方法，它们都具有返回值，返回的是一个全新的Promise对象，它的状态满足下面的规则：</p>
+<pre><code>1. 如果当前的Promise是未决的，得到的新的Promise是挂起状态
+2. 如果当前的Promise是已决的，会运行响应的后续处理函数，并将后续处理函数的结果（返回值）作为resolveed状态数据，应用到新的Promise中；如果后续处理函数发生错误，则把返回值作为rejected状态数据，应用到新的Promise中。</code></pre><p><strong>后续的Promise一定会等到前面的Promise有了后续处理结果后，才会变成已决状态</strong></p>
+<p>如果前面的Promise的后续处理，返回的是一个Promise，则返回的新的Promise状态和后续返回的Promise状态保持一致。</p>
+</blockquote>
+<h4 id="3-Promise-prototype-then"><a href="#3-Promise-prototype-then" class="headerlink" title="3. Promise.prototype.then()"></a>3. Promise.prototype.then()</h4><blockquote>
+<p>作用：为Promise实例添加状态改变时的回调函数，then方法的第一个参数是Resolved状态的回调函数，第二参数（可选）是Rejected状态的回调函数</p>
+<p>then方法返回的是一个新的Promise实例，会将then方法的返回值作为参数传入后续的回调函数中，如果传递的是一个Promise对象（即有异步操作），而后一个回调函数就会等待该Promise对象的状态发生变化，再被调用。</p>
+</blockquote>
+<h4 id="4-Promise-prototype-catch"><a href="#4-Promise-prototype-catch" class="headerlink" title="4. Promise.prototype.catch()"></a>4. Promise.prototype.catch()</h4><blockquote>
+<p>作用：用于指定发生错误时的回调函数。</p>
+<p>注意：</p>
+<pre><code>1. Promise对象的错误具有&quot;冒泡&quot;性质，会一直向后传递，直到被捕获为止，也就是说，错误总会被下一个catch语句捕获
+2. catch方法返回的还是一个Promise对象，因此后面还可以接着调用then方法</code></pre></blockquote>
+<h4 id="5-Promise-all"><a href="#5-Promise-all" class="headerlink" title="5. Promise.all()"></a>5. Promise.all()</h4><blockquote>
+<p>作用：Promise.all方法用于将多个Promise实例包装成一个新的Promise实例，【有错误处理错误，没错误返回全部】</p>
+<ul>
+<li>Promise.all()的方法参数不一定是数组，但是必须具有Iterator接口，且返回的每个成员都是Promise实例；</li>
+<li>只有参数中的状态都变成的Fulfilled，Promise.all()的状态才会变成Fulfilled，会把每个参数的返回值封装到一个数组中，传递给后续的回调函数中作为参数；</li>
+<li>如果参数中的状态有一个为Rejected，则会把第一个为Rejected状态的返回值作为参数传递给后续的回调函数；</li>
+<li>如果作为参数的Promise实例自身定义了catch方法，那么它被rejected时并不会触发Promise.all()的catch方法</li>
+<li>如果参数中是非Promise实例，会先调用Promise.resolve()进行包装，并返回一个Promise实例</li>
+</ul>
+</blockquote>
+<h4 id="6-Promise-race"><a href="#6-Promise-race" class="headerlink" title="6. Promise.race()"></a>6. Promise.race()</h4><blockquote>
+<p>作用：将多个Promise实例包装成一个新的Promise实例，【处理第一个改变状态的实例】</p>
+<ul>
+<li>Promise.race方法的参数与Promise.all方法一样，如果不是Promise实例，就会先调用Promise.resolve方法，将参数传递给Promise实例，再进一步处理。</li>
+</ul>
+</blockquote>
+<h4 id="7-Promise-resolve"><a href="#7-Promise-resolve" class="headerlink" title="7. Promise.resolve()"></a>7. Promise.resolve()</h4><blockquote>
+<p>作用：将现有对象转为Promise对象</p>
+<p>几种参数不同的情况：</p>
+<ul>
+<li>参数是一个Promise实例<ul>
+<li>如果参数是Promise实例，那么Promise.resolve将不做任何修改，原则不动地返回这个实例。</li>
+</ul>
+</li>
+<li>参数是一个thenable对象<ul>
+<li>thenable对象值得是具有then方法的对象</li>
+<li>Promise.resolve方法会将这个对象转为Promise对象，然后立即执行thenable对象的then方法</li>
+</ul>
+</li>
+<li>参数不是具有then方法的对象或者根本不是对象<ul>
+<li>如果参数是一个原始值，或者是一个不具有then方法的对象，那么Promise。resolve方法返回一个新的Promise对象，状态为resolved</li>
+</ul>
+</li>
+<li>不带有任何参数<ul>
+<li>直接返回一个Resolved状态的Promise对象</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h4 id="8-Promise-reject"><a href="#8-Promise-reject" class="headerlink" title="8. Promise.reject()"></a>8. Promise.reject()</h4><blockquote>
+<p>作用：Promise.reject(reason)方法也会返回一个新的Promise实例，状态为Rejected</p>
+<p>注意：</p>
+<ul>
+<li>Promise.reject()方法的参数会原封不动地作为reject的理由变成后续方法的参数，这一点与Promise.resolve方法不一样。</li>
+</ul>
+</blockquote>
+<h4 id="9-实现done"><a href="#9-实现done" class="headerlink" title="9. 实现done()"></a>9. 实现done()</h4><blockquote>
+<p>作用：安全的捕获错误</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.prototype.done = <span class="function"><span class="keyword">function</span> (<span class="params">onFulfilled, onRejected</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.then(onFulfilled, onRejected)</span><br><span class="line">        .catch(<span class="function"><span class="params">reason</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="comment">// 抛出一个全局错误</span></span><br><span class="line">            setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;<span class="keyword">throw</span> reason&#125;, <span class="number">0</span>) <span class="comment">// 放到宏队列中执行</span></span><br><span class="line">        &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="10-实现finally"><a href="#10-实现finally" class="headerlink" title="10. 实现finally()"></a>10. 实现finally()</h4><blockquote>
+<p>作用：finally方法用于指定Promise对象最后状态如何都会执行的操作。他与done方法的最大区别在于，让接受一个普通的回调函数作为参数，该函数不管怎么样都必须执行。</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.prototype.finally = <span class="function"><span class="keyword">function</span> (<span class="params">callback</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> P = <span class="keyword">this</span>.constructor;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">this</span>.then(</span><br><span class="line">        value =&gt; P.resolve(callback()).then(<span class="function"><span class="params">()</span> =&gt;</span> value),</span><br><span class="line">        reason =&gt; P.resolve(callback()).then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;<span class="keyword">throw</span> reason&#125;)</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Es6/" rel="tag"># Es6</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/28/Es6/%E5%88%A9%E7%94%A8Proxy%E5%AE%9E%E7%8E%B0%E6%95%B0%E7%BB%84%E8%AF%BB%E5%8F%96%E8%B4%9F%E6%95%B0%E7%B4%A2%E5%BC%95/" rel="next" title="Es6-利用Proxy实现数组读取负数索引">
+                <i class="fa fa-chevron-left"></i> Es6-利用Proxy实现数组读取负数索引
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">终身学习</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives%7C%7Carchive">
+              
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/MaFeixiang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:mafeixiang2019@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ES6之前异步处理的几个问题"><span class="nav-number">1.</span> <span class="nav-text">ES6之前异步处理的几个问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异步处理的通用模型"><span class="nav-number">2.</span> <span class="nav-text">异步处理的通用模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Promise-API详解"><span class="nav-number">3.</span> <span class="nav-text">Promise API详解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-创建Promise实例"><span class="nav-number">3.1.</span> <span class="nav-text">1. 创建Promise实例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Promise的串联"><span class="nav-number">3.2.</span> <span class="nav-text">2. Promise的串联</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Promise-prototype-then"><span class="nav-number">3.3.</span> <span class="nav-text">3. Promise.prototype.then()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-Promise-prototype-catch"><span class="nav-number">3.4.</span> <span class="nav-text">4. Promise.prototype.catch()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-Promise-all"><span class="nav-number">3.5.</span> <span class="nav-text">5. Promise.all()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-Promise-race"><span class="nav-number">3.6.</span> <span class="nav-text">6. Promise.race()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-Promise-resolve"><span class="nav-number">3.7.</span> <span class="nav-text">7. Promise.resolve()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-Promise-reject"><span class="nav-number">3.8.</span> <span class="nav-text">8. Promise.reject()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-实现done"><span class="nav-number">3.9.</span> <span class="nav-text">9. 实现done()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-实现finally"><span class="nav-number">3.10.</span> <span class="nav-text">10. 实现finally()</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谦修</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'fx26KlNbl1qvCLRUNIufnbJu-gzGzoHsz',
+        appKey: 'bpGROAfkO1xgWeppfKq4vjwG',
+        placeholder: '欢迎交流',
+        avatar:'robohash',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
