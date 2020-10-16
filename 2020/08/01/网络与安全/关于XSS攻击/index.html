@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="网络与安全," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="网络千万条，安全第一条，网安不规范，网站都完蛋  什么是XSS攻击 XSS攻击指的是：通过利用网页开发时留下得漏洞，恶意攻击者往Web页面里面插入恶意Script代码，当用户浏览时，嵌入其中Web里面得Script代码会被执行，从而达到恶意攻击用户得目的。 XSS全称是：跨站脚本攻击（Cross Site Script）。为嘛不叫CSS，因为和层叠样式表CSS冲突了，所以取名XSS。 由于现代浏">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络与安全-关于XSS攻击">
+<meta property="og:url" content="http://yoursite.com/2020/08/01/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%AE%89%E5%85%A8/%E5%85%B3%E4%BA%8EXSS%E6%94%BB%E5%87%BB/index.html">
+<meta property="og:site_name" content="谦修">
+<meta property="og:description" content="网络千万条，安全第一条，网安不规范，网站都完蛋  什么是XSS攻击 XSS攻击指的是：通过利用网页开发时留下得漏洞，恶意攻击者往Web页面里面插入恶意Script代码，当用户浏览时，嵌入其中Web里面得Script代码会被执行，从而达到恶意攻击用户得目的。 XSS全称是：跨站脚本攻击（Cross Site Script）。为嘛不叫CSS，因为和层叠样式表CSS冲突了，所以取名XSS。 由于现代浏">
+<meta property="article:published_time" content="2020-08-01T07:53:00.000Z">
+<meta property="article:modified_time" content="2020-10-16T09:38:30.317Z">
+<meta property="article:author" content="终身学习">
+<meta property="article:tag" content="网络与安全">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/08/01/网络与安全/关于XSS攻击/"/>
+
+
+
+
+
+  <title>网络与安全-关于XSS攻击 | 谦修</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">谦修</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">宇宙山河浪漫，人间点滴温暖，都值得我前行</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/01/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%AE%89%E5%85%A8/%E5%85%B3%E4%BA%8EXSS%E6%94%BB%E5%87%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="终身学习">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="谦修">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">网络与安全-关于XSS攻击</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-01T15:53:00+08:00">
+                2020-08-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%AE%89%E5%85%A8/" itemprop="url" rel="index">
+                    <span itemprop="name">网络与安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/08/01/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%AE%89%E5%85%A8/%E5%85%B3%E4%BA%8EXSS%E6%94%BB%E5%87%BB/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/08/01/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%AE%89%E5%85%A8/%E5%85%B3%E4%BA%8EXSS%E6%94%BB%E5%87%BB/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>网络千万条，安全第一条，网安不规范，网站都完蛋</p>
+</blockquote>
+<h3 id="什么是XSS攻击"><a href="#什么是XSS攻击" class="headerlink" title="什么是XSS攻击"></a>什么是XSS攻击</h3><ul>
+<li>XSS攻击指的是：<strong>通过利用网页开发时留下得漏洞，恶意攻击者往Web页面里面插入恶意Script代码，当用户浏览时，嵌入其中Web里面得Script代码会被执行，从而达到恶意攻击用户得目的。</strong></li>
+<li>XSS全称是：<strong>跨站脚本攻击（Cross Site Script）</strong>。为嘛不叫CSS，因为和层叠样式表CSS冲突了，所以取名XSS。</li>
+<li>由于现代浏览器的”同源策略”已经让运行再浏览器中的javascipt代码很难对外站进行访问了，所以，这个漏洞的名称可能存在一定的误导性，随着Web的迅速发展，现在JavaScript通吃前后端，甚至还可以开发APP，所以在产生的应用场景越来越多，越来越复杂的情况下，XSS愈来愈难统一针对，现在业内达成的共识就是，针对不同的场景而产生不同的XSS，需要区分对待。</li>
+</ul>
+<h3 id="XSS攻击带来的危害"><a href="#XSS攻击带来的危害" class="headerlink" title="XSS攻击带来的危害"></a>XSS攻击带来的危害</h3><ul>
+<li>通过document.cookie，盗取cookie中的信息</li>
+<li>使用js或css破坏页面正常的结构与样式</li>
+<li>流量劫持（通过访问某段具有window.location.href定位到其它页面）</li>
+<li>dos攻击：利用合理的客户端请求来占用过多的服务器资源，从而使合法用户无法得到服务器响应。并且通过携带过程的cookie信息可以使服务器返回400开头的状态码，从而拒绝合理的请求服务。</li>
+<li>利用iframe,frame,XMLHttpRequest或Flash等方式，以（被攻击者）用户的身份执行一些管理动作，或者执行一些一般如发微博，加好友，发私信等操作，并且攻击者还可以利用iframe,frame进一步的进行CSRF攻击</li>
+<li>控制企业数据，包括读取，篡改，添加，删除企业敏感数据的能力。</li>
+</ul>
+<h3 id="XSS攻击分类"><a href="#XSS攻击分类" class="headerlink" title="XSS攻击分类"></a>XSS攻击分类</h3><ul>
+<li>反射性XSS攻击（非持久性XSS）、存储型XSS攻击（持久性XSS攻击）。</li>
+</ul>
+<h4 id="1-存储型XSS攻击"><a href="#1-存储型XSS攻击" class="headerlink" title="1. 存储型XSS攻击"></a>1. 存储型XSS攻击</h4><ul>
+<li>攻击流程：攻击者事先将恶意代码上传或者存储到漏洞服务器中，只要受害者浏览包含此恶意代码的页面就会执行恶意代码，这就意味着只要访问了这个页面的访客，都有可能会执行这段恶意代码脚本，因此存储型XSS的危害会更大。</li>
+<li>攻击方向：存储型XSS一般出现在网站留言，评论，博客日志等交互处，恶意脚本存储到客户端或者服务器的数据库中，<strong>存储型XSS攻击更多时候用于攻击用户，而且在工作中的防范更多是防范存储型XSS攻击</strong>。</li>
+<li>攻击模拟</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1. 首先，攻击者向一个textarea输入一下内容</span></span><br><span class="line">&lt;script&gt; getData(<span class="built_in">document</span>.cookie)&lt;<span class="regexp">/script&gt;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ 2. 然后，前端调用ajax向后端</span></span><br><span class="line"><span class="regexp">$('send').click(function () &#123;</span></span><br><span class="line"><span class="regexp">    $.post('message.html', &#123;'msg': $('textarea').value()&#125;, function() &#123;&#125;);</span></span><br><span class="line"><span class="regexp">&#125;)</span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ 3. 接着，后端接受值写入数据库，同时又返回给前端展示。</span></span><br><span class="line"><span class="regexp">applicationCache.post('message.html', function (req, res, next) &#123;</span></span><br><span class="line"><span class="regexp">    /</span><span class="regexp">/ 写入数据</span></span><br><span class="line"><span class="regexp">    /</span><span class="regexp">/ ...</span></span><br><span class="line"><span class="regexp">    /</span><span class="regexp">/ 响应前端</span></span><br><span class="line"><span class="regexp">    res.json(&#123;</span></span><br><span class="line"><span class="regexp">        rest: req.body.msg</span></span><br><span class="line"><span class="regexp">    &#125;)</span></span><br><span class="line"><span class="regexp">&#125;)</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">/</span><span class="regexp">/ 4. 最后，新用户访问的时候，会读取数据库，并返回注入的恶意代码的网站，用于获取用户的信息，将用户信息返回给攻击者</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-反射型XSS攻击"><a href="#2-反射型XSS攻击" class="headerlink" title="2. 反射型XSS攻击"></a>2. 反射型XSS攻击</h4><ul>
+<li>攻击手段：反射性XSS一般是通过特定手法（如电子邮箱），诱使用户去访问一个包含恶意代码的URL，当受害者点击这些专门设计的链接时候，恶意代码会直接在受害者主机上的浏览器执行。</li>
+<li>对于访问者而言是一次性的，<strong>具有表现在我们的恶意脚本通过URL的方式传递给了服务器，而服务器则只是不加处理的把脚本“反射”回访者的浏览器而使访问者的浏览器执行相应的脚本。</strong></li>
+<li>反射型XSS的触发有后端的参与，<strong>要避免反射型XSS，必须需要后端的协调，后端解析前端的数据时首先做相关的字符串检测和转义处理。</strong></li>
+<li><strong>此类XSS通常出现在网站的搜索栏，用户登录口等地方，常用来窃取客户端Cookies或进行钓鱼欺骗</strong>。</li>
+<li>对于反射型XSS攻击，还有一种单纯发生在客户端XSSl攻击，也称为DOM-XSS,当用户在当前的页面自己输入具有问题的代码，会导致页面被恶意注入，但是不会影响到服务器。</li>
+<li>反射型攻击模拟</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 前提：目标网站存在XSS攻击漏洞</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 1. 攻击者诱导用户点击具有XSS攻击代码的目标网站链接</span></span><br><span class="line"><span class="comment">// http://www.test.com?kw=&lt;script&gt;document.cookie&lt;/script&gt;, 假设test.com是一个搜索网站</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 2. 目标网站的服务器收到相应的链接，不做安全处理（问题就出现在这里），处理完正常的业务逻辑，将搜索内容返回</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 3. 当搜索内容返回后，在用户端进行展示。并执行XSS攻击代码（获取用户cookie等操作）</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 4. 攻击者通过向目标网站注入代码，代码客户端执行，并返回客户端的信息完成一次XSS攻击</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="XSS防御"><a href="#XSS防御" class="headerlink" title="XSS防御"></a>XSS防御</h3><h4 id="1-XSS防御之HTML编码"><a href="#1-XSS防御之HTML编码" class="headerlink" title="1. XSS防御之HTML编码"></a>1. XSS防御之HTML编码</h4><ul>
+<li>应用范围：将不可信数据放入到HTML标签内（例如div,span等）的时候进行HTML编码。</li>
+<li>编码规则：将$ &lt; &gt; “ ‘ / 等转义为实体字符（十进制、十六进制）</li>
+<li>示例：</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">encodeForHtml</span>(<span class="params">str, kwargs</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (<span class="string">''</span> + str)</span><br><span class="line">        .replace(<span class="regexp">/&amp;/g</span>, <span class="string">'&amp;amp;'</span>)</span><br><span class="line">        .replace(<span class="regexp">/&lt;/g</span>, <span class="string">'&amp;lt;'</span>)</span><br><span class="line">        .replace(<span class="regexp">/&gt;/g</span>, <span class="string">'&amp;gt;'</span>)</span><br><span class="line">        .replace(<span class="regexp">/'/g</span>, <span class="string">'&amp;#x27;'</span>)</span><br><span class="line">        .replace(<span class="regexp">/"/g</span>, <span class="string">'&amp;quot;'</span>)</span><br><span class="line">        .replace(<span class="regexp">/\//g</span>, <span class="string">'&amp;#x2f;'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-XSS防御之HTML-Attribute编码"><a href="#2-XSS防御之HTML-Attribute编码" class="headerlink" title="2. XSS防御之HTML Attribute编码"></a>2. XSS防御之HTML Attribute编码</h4><ul>
+<li>应用范围：将不可信数据放入HTML属性时（不含src,href,style和事件处理属性），进行HTML Attribute编码</li>
+<li>编码规则：除了字母数字字符以外，使用&#xHH;(或者可用的命名实体)格式来转义ASCII值小于256所有的字符</li>
+<li>示例</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">encodeForHTMLAttribute</span>(<span class="params">str, kwargs</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> encoded = <span class="string">''</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; str.length; i++) &#123;</span><br><span class="line">        <span class="keyword">let</span> ch = str[i];</span><br><span class="line">        <span class="keyword">let</span> hex = str[i];</span><br><span class="line">        <span class="keyword">if</span> (!<span class="regexp">/[A-Za-z0-9]/</span>.test(str[i]) &amp;&amp; str.charCodeAt(i) &lt; <span class="number">256</span>) &#123;</span><br><span class="line">            hex = <span class="string">'&amp;#x'</span> + ch.charCodeAt(<span class="number">0</span>).toString(<span class="number">16</span>) + <span class="string">';'</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        encoded += hex;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> encoded;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-XSS防御之JavaScript编码"><a href="#3-XSS防御之JavaScript编码" class="headerlink" title="3. XSS防御之JavaScript编码"></a>3. XSS防御之JavaScript编码</h4><ul>
+<li>作用范围：将不可信数据放入事件处理属性、JavaScript值时进行JavaScript编码</li>
+<li>编码规则：除了字母数字字符外，使用\xHH格式进行转义ASCII码小于256的所有字符</li>
+<li>示例</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">encodeForJavaScript</span>(<span class="params">str, kwargs</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> encoded = <span class="string">''</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; str.length; i++) &#123;</span><br><span class="line">        <span class="keyword">let</span> cc = str[i];</span><br><span class="line">        <span class="keyword">let</span> hex = str[i];</span><br><span class="line">        <span class="keyword">if</span> (!<span class="regexp">/[A-Za-z0-9]/</span>.test(str[i]) &amp;&amp; str.charCodeAt(i) &lt; <span class="number">256</span>) &#123;</span><br><span class="line">            hex = <span class="string">'\\x'</span> + cc.charCodeAt().toString(<span class="number">16</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        encoded += hex;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> encoded;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-XSS防御之URL编码"><a href="#4-XSS防御之URL编码" class="headerlink" title="4. XSS防御之URL编码"></a>4. XSS防御之URL编码</h4><ul>
+<li>作用范围：将不可信数据作为URL参数值时需要对参数进行URL编码</li>
+<li>编码规则：将参数值进行encodeURIComponent编码</li>
+<li>示例</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">encodeForURL</span>(<span class="params">str, kwargs</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">encodeURIComponent</span>(str);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-XSS防御之CSS编码"><a href="#5-XSS防御之CSS编码" class="headerlink" title="5. XSS防御之CSS编码"></a>5. XSS防御之CSS编码</h4><ul>
+<li>作用范围：将不可信数据作为CSS进行CSS编码</li>
+<li>编码规则：除了字母数字字符之外，使用\XXXXXX格式来转义ASCII值小于256的所有字符。</li>
+<li>示例</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">encodeForCSS</span>(<span class="params">attr, str, kwargs</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> encoded = <span class="string">''</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; str.length; i++) &#123;</span><br><span class="line">        <span class="keyword">let</span> ch = str.charCodeAt(i);</span><br><span class="line">        <span class="keyword">if</span> (!ch.match(<span class="regexp">/[A-Za-z0-9]/</span>)) &#123;</span><br><span class="line">            <span class="keyword">let</span> hex = str.charCodeAt(i).toString(<span class="number">16</span>);</span><br><span class="line">            <span class="keyword">let</span> pad = <span class="string">'000000'</span>.substr((hex.length));</span><br><span class="line">            encode += <span class="string">'\\'</span> + pad + hex;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            encoded += ch;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> encoded;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><ul>
+<li>任何时候用户的输入都是不可信的。对于http参数，理论上都要进行验证，例如某个字段是枚举类型，其就不应该出现枚举以为的值；对于不可信数据的输出进行相应的编码。</li>
+<li>XSS漏洞有时比较难发现，所幸当下React,Vue等框架都从框架层面引入了XSS防御机制，一定程度上解放了我们的双手，框架是辅助，我们仍需以人为本，规范开发习惯，提高 Web 前端安全意识。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%AE%89%E5%85%A8/" rel="tag"># 网络与安全</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/30/Es6/%E5%AF%B9Promise%E7%90%86%E8%A7%A3/" rel="next" title="Es6-对Promise的理解">
+                <i class="fa fa-chevron-left"></i> Es6-对Promise的理解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">终身学习</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives%7C%7Carchive">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/MaFeixiang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:mafeixiang2019@163.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是XSS攻击"><span class="nav-number">1.</span> <span class="nav-text">什么是XSS攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XSS攻击带来的危害"><span class="nav-number">2.</span> <span class="nav-text">XSS攻击带来的危害</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XSS攻击分类"><span class="nav-number">3.</span> <span class="nav-text">XSS攻击分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-存储型XSS攻击"><span class="nav-number">3.1.</span> <span class="nav-text">1. 存储型XSS攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-反射型XSS攻击"><span class="nav-number">3.2.</span> <span class="nav-text">2. 反射型XSS攻击</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XSS防御"><span class="nav-number">4.</span> <span class="nav-text">XSS防御</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-XSS防御之HTML编码"><span class="nav-number">4.1.</span> <span class="nav-text">1. XSS防御之HTML编码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-XSS防御之HTML-Attribute编码"><span class="nav-number">4.2.</span> <span class="nav-text">2. XSS防御之HTML Attribute编码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-XSS防御之JavaScript编码"><span class="nav-number">4.3.</span> <span class="nav-text">3. XSS防御之JavaScript编码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-XSS防御之URL编码"><span class="nav-number">4.4.</span> <span class="nav-text">4. XSS防御之URL编码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-XSS防御之CSS编码"><span class="nav-number">4.5.</span> <span class="nav-text">5. XSS防御之CSS编码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意"><span class="nav-number">5.</span> <span class="nav-text">注意</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">谦修</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: 'fx26KlNbl1qvCLRUNIufnbJu-gzGzoHsz',
+        appKey: 'bpGROAfkO1xgWeppfKq4vjwG',
+        placeholder: '欢迎交流',
+        avatar:'robohash',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
