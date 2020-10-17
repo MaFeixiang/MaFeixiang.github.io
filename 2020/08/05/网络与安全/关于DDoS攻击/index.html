@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="Es6," />
+  <meta name="keywords" content="网络与安全," />
 
 
 
@@ -86,16 +86,16 @@
 
 
 
-<meta name="description" content="Mixin模式：混入模式（浅克隆）">
+<meta name="description" content="网络千万条，安全第一条，网安不安全，网站都完蛋！">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Es6-利用getOwnPropertyDescriptors()实现Mixin模式">
-<meta property="og:url" content="http://yoursite.com/2020/07/27/Es6/%E5%AE%9E%E7%8E%B0Mixin(%E6%B7%B7%E5%85%A5)%E6%A8%A1%E5%BC%8F/index.html">
+<meta property="og:title" content="网络与安全-关于DDoS攻击">
+<meta property="og:url" content="http://yoursite.com/2020/08/05/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%AE%89%E5%85%A8/%E5%85%B3%E4%BA%8EDDoS%E6%94%BB%E5%87%BB/index.html">
 <meta property="og:site_name" content="谦修">
-<meta property="og:description" content="Mixin模式：混入模式（浅克隆）">
-<meta property="article:published_time" content="2020-07-27T13:39:00.000Z">
-<meta property="article:modified_time" content="2020-10-09T07:22:33.663Z">
+<meta property="og:description" content="网络千万条，安全第一条，网安不安全，网站都完蛋！">
+<meta property="article:published_time" content="2020-08-05T07:08:00.000Z">
+<meta property="article:modified_time" content="2020-10-17T09:05:55.070Z">
 <meta property="article:author" content="终身学习">
-<meta property="article:tag" content="Es6">
+<meta property="article:tag" content="网络与安全">
 <meta name="twitter:card" content="summary">
 
 
@@ -126,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/07/27/Es6/实现Mixin(混入)模式/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/08/05/网络与安全/关于DDoS攻击/"/>
 
 
 
 
 
-  <title>Es6-利用getOwnPropertyDescriptors()实现Mixin模式 | 谦修</title>
+  <title>网络与安全-关于DDoS攻击 | 谦修</title>
   
 
 
@@ -307,7 +307,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/27/Es6/%E5%AE%9E%E7%8E%B0Mixin(%E6%B7%B7%E5%85%A5)%E6%A8%A1%E5%BC%8F/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/05/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%AE%89%E5%85%A8/%E5%85%B3%E4%BA%8EDDoS%E6%94%BB%E5%87%BB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="终身学习">
@@ -324,7 +324,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">Es6-利用getOwnPropertyDescriptors()实现Mixin模式</h2>
+          <h2 class="post-title" itemprop="name headline">网络与安全-关于DDoS攻击</h2>
         
 
         <div class="post-meta">
@@ -336,8 +336,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-27T21:39:00+08:00">
-                2020-07-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-05T15:08:00+08:00">
+                2020-08-05
               </time>
             
 
@@ -359,8 +359,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Es6/" itemprop="url" rel="index">
-                    <span itemprop="name">Es6</span>
+                  <a href="/categories/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%AE%89%E5%85%A8/" itemprop="url" rel="index">
+                    <span itemprop="name">网络与安全</span>
                   </a>
                 </span>
 
@@ -377,8 +377,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2020/07/27/Es6/%E5%AE%9E%E7%8E%B0Mixin(%E6%B7%B7%E5%85%A5)%E6%A8%A1%E5%BC%8F/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2020/07/27/Es6/%E5%AE%9E%E7%8E%B0Mixin(%E6%B7%B7%E5%85%A5)%E6%A8%A1%E5%BC%8F/" itemprop="commentCount"></span>
+                <a href="/2020/08/05/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%AE%89%E5%85%A8/%E5%85%B3%E4%BA%8EDDoS%E6%94%BB%E5%87%BB/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/08/05/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%AE%89%E5%85%A8/%E5%85%B3%E4%BA%8EDDoS%E6%94%BB%E5%87%BB/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -407,12 +407,79 @@
 
       
         <blockquote>
-<p>Mixin模式：混入模式（浅克隆）</p>
+<p>网络千万条，安全第一条，网安不安全，网站都完蛋！</p>
 </blockquote>
 <a id="more"></a>
 
-<h3 id="利用getOwnPropertyDescriptors-实现"><a href="#利用getOwnPropertyDescriptors-实现" class="headerlink" title="利用getOwnPropertyDescriptors()实现"></a>利用getOwnPropertyDescriptors()实现</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> mix = <span class="function">(<span class="params">object</span>) =&gt;</span> (&#123;</span><br><span class="line">    <span class="keyword">with</span>: <span class="function">(<span class="params">...mixins</span>) =&gt;</span> mixins.reduce(<span class="function">(<span class="params">c, mixin</span>) =&gt;</span> <span class="built_in">Object</span>.create( <span class="comment">// 循环复制操作mixins中的对象</span></span><br><span class="line">        c,</span><br><span class="line">        <span class="built_in">Object</span>.getOwnPropertyDescriptors(mixin)</span><br><span class="line">    ), object)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// test</span></span><br><span class="line"><span class="keyword">let</span> a = &#123; <span class="attr">a</span>: <span class="string">'1'</span>, <span class="attr">n</span>: <span class="string">'4'</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> b = &#123; <span class="attr">b</span>: <span class="string">'2'</span>, <span class="attr">n</span>: <span class="string">'5'</span> &#125;;</span><br><span class="line"><span class="keyword">let</span> c = &#123; <span class="attr">c</span>: <span class="string">'3'</span>, <span class="attr">n</span>: <span class="string">'6'</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> d = mix(a).with(b, c);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> key <span class="keyword">in</span> d) &#123; <span class="comment">// for in循环会读取原型上的属性</span></span><br><span class="line">    <span class="built_in">console</span>.log(key + <span class="string">':'</span> + d[key]); <span class="comment">// c:3 n:6 b:2 a:1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<h3 id="什么是DDoS攻击"><a href="#什么是DDoS攻击" class="headerlink" title="什么是DDoS攻击"></a>什么是DDoS攻击</h3><ul>
+<li><p>在介绍DDoS之前，需要先简单介绍一下什么是DoS。</p>
+</li>
+<li><p>DoS（拒绝服务，Denial of Service）:<strong>就是利用合理的服务请求来占用过多的服务资源，从而使用合法用户无法得到服务的响应</strong>；这是早期非常基本的网络攻击方式。</p>
+</li>
+<li><p>在信息安全的三要素：机密性、完整性和可用性</p>
+<ul>
+<li>机密性：要求保护数据内容不被泄露，加密是实现机密性要求的常用手段。</li>
+<li>完整性：要求保护数据内容是完整的、没有被篡改的。常见的保证一致性的技术手段是数字签名。</li>
+<li>可用性：要求保护的资源是“随需而得”。</li>
+</ul>
+</li>
+<li><p>DoS针对的目标就是可用性。该攻击方式利用系统网络服务功能缺陷或者直接消耗其系统资源，使得该目标系统无法提供正常的服务。</p>
+</li>
+<li><p>那什么是DDoS攻击:</p>
+<ul>
+<li>分布式拒绝服务（DDoS：Distributed Denial of Service）攻击：<strong>是指攻击者利用大量“肉鸡”对攻击目标发动大量的正常或非常请求、耗尽目标主机资源或者网络资源，从而使被攻击的主机不能为正常用户提供服务。</strong></li>
+</ul>
+</li>
+</ul>
+<h3 id="DDoS攻击类型"><a href="#DDoS攻击类型" class="headerlink" title="DDoS攻击类型"></a>DDoS攻击类型</h3><ul>
+<li>DDoS攻击主要分为三类：流量型攻击；连接型攻击；特殊协议缺陷。</li>
+<li>他们都是透过大量合法或伪造的请求占用大量网络以及器材资源，以达到瘫痪网络以及系统的目的。</li>
+</ul>
+<h4 id="1-Ip-Flood"><a href="#1-Ip-Flood" class="headerlink" title="1. Ip Flood"></a>1. Ip Flood</h4><ul>
+<li>攻击原理：此攻击以多个随机的源主机地址向目的的主机发送超大量的随机或待定的IP包，造成目标主机不能处理其它正常的IP报文。</li>
+<li>攻击者 –&gt; 发送大量的IP攻击数据包 –&gt; Internet –&gt; TopADS –&gt; Server</li>
+</ul>
+<h4 id="2-Ip-Frag-Flood"><a href="#2-Ip-Frag-Flood" class="headerlink" title="2. Ip Frag Flood"></a>2. Ip Frag Flood</h4><ul>
+<li>攻击原理：攻击者构造的分片报文，但是不向接收方发送最后一个分片报文，导致接受方要为所有的分片报文分配内存空间，可由于最后一个分片报文永远不会达到，接受方的内存得不到及时的释放，当攻击者这种攻击的分片报文发送的足够多、足够快，很容易占满接受内存，让接受无内存资源处理正常的业务，从而达到效果。</li>
+<li>攻击者 –&gt; 发送大量的IP分片攻击包 –&gt; Internet –&gt; TopADS –&gt; Server</li>
+</ul>
+<h4 id="3-Icmp-Flood"><a href="#3-Icmp-Flood" class="headerlink" title="3. Icmp Flood"></a>3. Icmp Flood</h4><ul>
+<li>攻击原理：icmpflood也就是ping flood,此攻击在短时间内向目的主机发送大量的ping的echo报文，主机不断响应，造成网络堵塞，主机资源耗尽。</li>
+<li>攻击者 –&gt; ping a lot of ip –&gt; internet –&gt; target</li>
+</ul>
+<h4 id="4-Syn-Flood"><a href="#4-Syn-Flood" class="headerlink" title="4. Syn Flood"></a>4. Syn Flood</h4><ul>
+<li>攻击原理：依据tcp建立连接的三次握手。此攻击以多个随机的源主机地址向目的主机发送syn包，而在收到目的主机的syn+ack包后并不回应，目的主机就为这些源主机建立大量的连接队列，由于没有收到ack一直维护这些连接队列，造成资源的大量消耗而不能向正常的请求提供服务。与之类似的攻击方式华友ackflood,s-ackflood,finflood,rstflood,tcpflood。</li>
+<li>攻击者 –&gt; Internet  –&gt;Tcp syn攻击包 –&gt; TopADS –&gt; Server;</li>
+</ul>
+<h4 id="5-Udp-Flood"><a href="#5-Udp-Flood" class="headerlink" title="5. Udp Flood"></a>5. Udp Flood</h4><ul>
+<li>攻击原理：此攻击在短时间内模拟随机的源端口地址向随机的目的端口发送大量的udp包，造成目标主机不能处理其它udp的请求。</li>
+<li>攻击者 –&gt; UDP dest port a lot of xxx –&gt; Internet –&gt; Target</li>
+</ul>
+<h4 id="6-Udp反射Flood"><a href="#6-Udp反射Flood" class="headerlink" title="6. Udp反射Flood"></a>6. Udp反射Flood</h4><ul>
+<li>攻击原理：有时被保护服务器也有同外部服务器进行udp交互的需求，攻击者就会利用此交互对被保护服务器进行udp反射放攻击。此攻击在短时间内冒充被攻击地址向外部公用的服务器发送大量的udp请求包，外部服务器收到虚假的udp请求包就会回复大量的回应包给被攻击服务器地址，造成目标主机被保护服务器不能处理其它正常的交互流。</li>
+<li>攻击者 –&gt; 虚假的Udp请求攻击包 –&gt; 大量的外部服务器 –&gt; 发送大量的udp回复攻击包 –&gt; Internet –&gt; TopADS –&gt; 被保护的服务器</li>
+</ul>
+<h3 id="DDoS的危害"><a href="#DDoS的危害" class="headerlink" title="DDoS的危害"></a>DDoS的危害</h3><ul>
+<li>当服务器被DDoS攻击时，一般会出现以下现象：<ul>
+<li>被攻击主机上有大量等待的TCP连接；</li>
+<li>网络中充斥着大量的无用数据包；</li>
+<li>受害主机无法正常和外界通讯；</li>
+<li>受害主机无法处理所有正常请求；严重时会造成系统死机；</li>
+<li>对于用户来说，在常见的现象就是网站无法访问。</li>
+</ul>
+</li>
+</ul>
+<h3 id="DDoS的防范"><a href="#DDoS的防范" class="headerlink" title="DDoS的防范"></a>DDoS的防范</h3><ul>
+<li>为了对抗DDoS攻击，你需要对攻击时发生了什么有一个清楚的理解。简单来讲，DDoS攻击可以通过利用服务器上的漏洞，或者消耗服务器上的资源（例如 内存 硬盘等等）来达到目的。<ul>
+<li>如果可以识别出攻击源，如机器IP等，可以在防火墙上放置一份ACL（访问控制列表）来阻断这些来自这些IP的访问。</li>
+<li>对于带宽消耗型攻击，最有效的办法就是增加带宽。</li>
+<li>提高服务器的服务能力，增在负载均衡，多地部署。</li>
+<li>优化资源使用提高web server的负载能力。例如，使用apache可以安装apachebooster插件，该插件与varnish和nginx集成，可以应对突增的流量和内存占用。</li>
+<li>使用高扩展性的DNS设备来保护针对DNS的DDoS攻击。可以考虑购买Cloundfair的商业解决方案，它可以提供针对DNS或TCP/IP3到7层的DDoS攻击保护。</li>
+<li>启用路由器或防火墙的反IP欺骗功能。</li>
+</ul>
+</li>
+</ul>
 
       
     </div>
@@ -430,7 +497,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Es6/" rel="tag"># Es6</a>
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%AE%89%E5%85%A8/" rel="tag"># 网络与安全</a>
           
         </div>
       
@@ -458,8 +525,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/07/26/Es6/%E5%AE%9E%E7%8E%B0getOwnPropertyDescriptors()/" rel="next" title="Es6-实现Object.getOwnPropertyDescriptors()">
-                <i class="fa fa-chevron-left"></i> Es6-实现Object.getOwnPropertyDescriptors()
+              <a href="/2020/08/03/%E7%BD%91%E7%BB%9C%E4%B8%8E%E5%AE%89%E5%85%A8/%E5%85%B3%E4%BA%8ECSRF%E6%94%BB%E5%87%BB/" rel="next" title="网络与安全-关于CSRF攻击">
+                <i class="fa fa-chevron-left"></i> 网络与安全-关于CSRF攻击
               </a>
             
           </div>
@@ -467,10 +534,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/07/28/Es6/%E5%88%A9%E7%94%A8Proxy%E5%AE%9E%E7%8E%B0%E6%95%B0%E7%BB%84%E8%AF%BB%E5%8F%96%E8%B4%9F%E6%95%B0%E7%B4%A2%E5%BC%95/" rel="prev" title="Es6-利用Proxy实现数组读取负数索引">
-                Es6-利用Proxy实现数组读取负数索引 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -621,7 +684,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#利用getOwnPropertyDescriptors-实现"><span class="nav-number">1.</span> <span class="nav-text">利用getOwnPropertyDescriptors()实现</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是DDoS攻击"><span class="nav-number">1.</span> <span class="nav-text">什么是DDoS攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DDoS攻击类型"><span class="nav-number">2.</span> <span class="nav-text">DDoS攻击类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Ip-Flood"><span class="nav-number">2.1.</span> <span class="nav-text">1. Ip Flood</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Ip-Frag-Flood"><span class="nav-number">2.2.</span> <span class="nav-text">2. Ip Frag Flood</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Icmp-Flood"><span class="nav-number">2.3.</span> <span class="nav-text">3. Icmp Flood</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-Syn-Flood"><span class="nav-number">2.4.</span> <span class="nav-text">4. Syn Flood</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-Udp-Flood"><span class="nav-number">2.5.</span> <span class="nav-text">5. Udp Flood</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-Udp反射Flood"><span class="nav-number">2.6.</span> <span class="nav-text">6. Udp反射Flood</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DDoS的危害"><span class="nav-number">3.</span> <span class="nav-text">DDoS的危害</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DDoS的防范"><span class="nav-number">4.</span> <span class="nav-text">DDoS的防范</span></a></li></ol></div>
             
 
           </div>
